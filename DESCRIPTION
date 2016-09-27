@@ -1,0 +1,26 @@
+Package: Saagie
+Type: Package
+Title: RStudio Addin to Interact with the Saagie Platform, Upload and Run R Jobs
+Version: 0.1.0
+Depends:
+    R (>= 3.2.3)
+Imports:
+    stringr,
+    RCurl,
+    httr,
+    data.table,
+    miniUI (>= 0.1.1),
+    shiny (>= 0.13),
+    shinyjs,
+    DT,
+    formatR,
+    rstudioapi (>= 0.5),
+    rappdirs
+Authors@R: c(person("Saagie", role = "cph"),
+    person("Charline", email = "charline@saagie.com", role = c("aut", "cre")),
+    person("Aurele", email = "aurele@saagie.com", role = c("ctb")))
+Description: Allows to upload R scripts from your local RStudio to the Saagie
+    Platform. Run them. Get the logs.
+License: GPL-3
+LazyData: TRUE
+RoxygenNote: 5.0.1

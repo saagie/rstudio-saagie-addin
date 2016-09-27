@@ -1,0 +1,33 @@
+/* Rouge : #FF503D
+Gris clair : #EBECEC
+Gris foncé : #595B60 */
+
+h1 {
+  color: #EBECEC;
+  font-weight: bold;
+  background-color: #595B60;
+}
+
+body {
+  color: #595B60 ;
+  background-color : white ;
+  border-color:  #595B60;
+}
+
+
+table {
+  border-color: #595B60;
+}
+
+th {
+  background-color: #EBECEC;
+  color:#595B60;
+  text-align: center;
+}
+
+td {
+	color: #595B60;
+	border-bottom-color: #EBECEC;
+	text-align: center;
+}
+

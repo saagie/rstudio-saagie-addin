@@ -217,21 +217,21 @@ view.pageCreateNewJob <- function(){
            ),
            column(12,
                   actionButton("addDeploy","Add & deploy",
-                               style='background-color:#EBECEC; color:#595B60; font-weight: bold'),
-                  actionButton("runAddDeploy", "RUN",
                                style='background-color:#EBECEC; color:#595B60; font-weight: bold')
-           ),
-           br(),
-           column(12,
-                  shinyjs::hidden(actionButton("downloadDataStdout","Download STDOUT",
-                                               icon = icon("download", lib = "font-awesome"),
-                                               style='background-color:#EBECEC; color:#595B60; font-weight: bold')
-                  ),
-                  shinyjs::hidden(actionButton("downloadDataStderr", "Download STDERR",
-                                               icon = icon("download", lib = "font-awesome"),
-                                               style='background-color:#EBECEC; color:#595B60; font-weight: bold')
-                  )
+                  # actionButton("runAddDeploy", "RUN",
+                  #              style='background-color:#EBECEC; color:#595B60; font-weight: bold')
            )
+           # br(),
+           # column(12,
+           #        shinyjs::hidden(actionButton("downloadDataStdout","Download STDOUT",
+           #                                     icon = icon("download", lib = "font-awesome"),
+           #                                     style='background-color:#EBECEC; color:#595B60; font-weight: bold')
+           #        ),
+           #        shinyjs::hidden(actionButton("downloadDataStderr", "Download STDERR",
+           #                                     icon = icon("download", lib = "font-awesome"),
+           #                                     style='background-color:#EBECEC; color:#595B60; font-weight: bold')
+           #        )
+           # )
   ))
 }
 
@@ -319,7 +319,7 @@ view.errorConnection <- function(){
 view.recoverNameFile <- function(){
   context <- rstudioapi::callFun("getActiveDocumentContext")
   if(is.null(context)){
-    message("Open a R Script")
+    message("Cancel the message Box and Open a R Script !")
     quit()
   }else{
   nameFileR <- rstudioapi::getActiveDocumentContext()

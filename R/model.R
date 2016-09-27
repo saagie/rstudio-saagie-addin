@@ -238,7 +238,7 @@ model.upgradeJob <- function(path, input,idJob,pathNameFile){
   version <- model.newVersion(input,thePlatform,idJob,fileName)
   reponseAdd <- GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob, sep=""),
                   authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
-  model.runJob(thePlatform, reponseAdd)
+  #model.runJob(thePlatform, reponseAdd)
   return(thePlatform)
 }
 

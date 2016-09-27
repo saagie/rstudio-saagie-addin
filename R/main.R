@@ -177,23 +177,23 @@ Saagie <- function(data, xvar, yvar) {
       nameFile <- view.recoverNameFile()
       pathNameFile <- model.writeFile(document,nameFile)
       info <- model.postJob(path_to_persistent_saagie_files, input, pathNameFile)
-      observeEvent(input$runAddDeploy,{
-        idJobPlatform <- model.runJob(info[['ThePlatform']],info[['ReponseAdd']])
-        view.BarProgress()
-        log <- model.showLog(info[['ThePlatform']],idJobPlatform)
-        view.downloadLog()
-        view.log(log[['LogsJob']])
-        model.removeFile(pathNameFile)
-        # Download Log STDOUT
-        observeEvent(input$downloadDataStdout, {
-          model.downloadStdout(info[['ThePlatform']],log)
-        })
-        # Download Log STDERR
-        observeEvent(input$downloadDataStderr, {
-          model.downloadStderr(info[['ThePlatform']],log)
-        })
+      # observeEvent(input$runAddDeploy,{
+      #   idJobPlatform <- model.runJob(info[['ThePlatform']],info[['ReponseAdd']])
+      #   view.BarProgress()
+      #   log <- model.showLog(info[['ThePlatform']],idJobPlatform)
+      #   view.downloadLog()
+      #   view.log(log[['LogsJob']])
+      #   model.removeFile(pathNameFile)
+      #   # Download Log STDOUT
+      #   observeEvent(input$downloadDataStdout, {
+      #     model.downloadStdout(info[['ThePlatform']],log)
+      #   })
+      #   # Download Log STDERR
+      #   observeEvent(input$downloadDataStderr, {
+      #     model.downloadStderr(info[['ThePlatform']],log)
+      #   })
 
-      })
+      # })
     })
 
     # Upgrade the Job
@@ -207,21 +207,21 @@ Saagie <- function(data, xvar, yvar) {
       idJob <- jobs[value,1]
       nameJob <- jobs[value,4]
       thePlatform <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
-      view.BarProgress()
-      log <- model.showLog(thePlatform,idJob)
-      view.downloadLogUpgrade()
-      view.log(log[['LogsJob']])
-      model.removeFile(pathNameFile)
-      # Download Log STDOUT
-      observeEvent(input$downloadDataStdoutUpgrade, {
-        model.downloadStdout(thePlatform,log)
-        view.messagePathStdout()
-      })
-      # Download Log STDERR
-      observeEvent(input$downloadDataStderrUpgrade, {
-        model.downloadStderr(thePlatform,log)
-        view.messagePathStderr()
-      })
+      # view.BarProgress()
+      # log <- model.showLog(thePlatform,idJob)
+      # view.downloadLogUpgrade()
+      # view.log(log[['LogsJob']])
+      # model.removeFile(pathNameFile)
+      # # Download Log STDOUT
+      # observeEvent(input$downloadDataStdoutUpgrade, {
+      #   model.downloadStdout(thePlatform,log)
+      #   view.messagePathStdout()
+      # })
+      # # Download Log STDERR
+      # observeEvent(input$downloadDataStderrUpgrade, {
+      #   model.downloadStderr(thePlatform,log)
+      #   view.messagePathStderr()
+      # })
     })
 
     # Refresh a page "Select or Create new Job"

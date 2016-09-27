@@ -25,7 +25,7 @@ Saagie <- function(data, xvar, yvar) {
   ui <- shinyUI(view.activate())
 
   server <- function(input, output, session) {
-    
+  
     # # A persistent directory for the Saagie addin in the hidden ".rstudio" directory
     # if (identical(.Platform$OS.type, "windows")) {
     #   path_to_persistent_saagie_files <- file.path(win_path_env("local"), "RStudio-Desktop", "Saagie")
@@ -280,6 +280,8 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$cancel, {
       stopApp(message("Cancelled Saagie interaction"))
     })
+  
+    
   }
   
   # The default stopOnCancel = TRUE causes an 

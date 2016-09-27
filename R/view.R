@@ -317,13 +317,18 @@ view.errorConnection <- function(){
 
 # Recover the name file R Script
 view.recoverNameFile <- function(){
+  context <- rstudioapi::callFun("getActiveDocumentContext")
+  if(is.null(context)){
+    message("Open a R Script")
+    quit()
+  }else{
   nameFileR <- rstudioapi::getActiveDocumentContext()
   nameFileR <- nameFileR[2]
   nameFileR <- tstrsplit(nameFileR,"/")
   num <- length(nameFileR)
   nameFileR <- nameFileR[num]
   nameFileR <- tstrsplit(nameFileR,".R")
-  nameFileR <- nameFileR[1]
+  nameFileR <- nameFileR[1]}
 }
 
 

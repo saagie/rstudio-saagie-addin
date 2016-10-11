@@ -280,6 +280,10 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$cancel, {
       stopApp(message("Cancelled Saagie interaction"))
     })
+    # Deal with closing the add-in with the 'x' box instead of the 'Cancel' button
+    session$onSessionEnded(function() {
+      stopApp(message("Cancelled Saagie interaction"))
+    })
   
     
   }

@@ -144,7 +144,13 @@ Saagie <- function(data, xvar, yvar) {
       }
     })
 
-    context <- rstudioapi::getActiveDocumentContext()
+    tryCatch({
+      context <- rstudioapi::getSourceEditorContext()
+    },
+    error = function(cond) {
+      info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
+      stopApp(cond)
+    })
     # Formate the document who containing the R Script
     reactiveDocument <- reactive({
       formatted <- formatR::tidy_source(

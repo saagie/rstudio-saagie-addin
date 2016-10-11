@@ -129,7 +129,7 @@ view.showTableJob <- function(jobs,output){
 view.pageAddPlatform <- function(){
   fluidRow(
     column(6,
-           textInput("platformURL", "Platform URL :", value = "https://manager.dev.saagie.io"),
+           textInput("platformURL", "Platform URL :", value = "https://manager.prod.saagie.io"),
            textInput("user", "User :"),
            passwordInput("password", "Password :"),
            actionButton("testConnection", "Connection",

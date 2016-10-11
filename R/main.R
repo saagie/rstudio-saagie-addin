@@ -67,14 +67,17 @@ Saagie <- function(data, xvar, yvar) {
 
     # Displays the page "Select or create a new job"
     observeEvent(input$createJob,{
-      model.rmJob(path_to_persistent_saagie_files)
-      model.JobRPlatform(path_to_persistent_saagie_files)
-      jobs <- model.readTableJob(path_to_persistent_saagie_files)
-      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
-      jobs <- model.removeLinkedNoR(jobs)
-      view.showTableJob(jobs,output)
-      view.showSelectCreateJob()
+      withProgress({
+        # model.rmJob(path_to_persistent_saagie_files)
+        model.JobRPlatform(path_to_persistent_saagie_files)
+        jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        jobs <- model.currentVersion(jobs,thePlatform)
+        jobs <- model.removeLinkedNoR(jobs)
+        view.showTableJob(jobs,output)
+        view.showSelectCreateJob()
+      },
+      message = "Retrieving list of R jobs from Saagie")
     })
 
     # Displays the page "Create a new job"
@@ -226,14 +229,17 @@ Saagie <- function(data, xvar, yvar) {
 
     # Refresh a page "Select or Create new Job"
     observeEvent(input$refresh, {
-      model.rmJob(path_to_persistent_saagie_files)
-      model.JobRPlatform(path_to_persistent_saagie_files)
-      jobs <- model.readTableJob(path_to_persistent_saagie_files)
-      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
-      jobs <- model.removeLinkedNoR(jobs)
-      view.showTableJob(jobs,output)
-      view.showSelectCreateJob()
+      withProgress({
+        # model.rmJob(path_to_persistent_saagie_files)
+        model.JobRPlatform(path_to_persistent_saagie_files)
+        jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        jobs <- model.currentVersion(jobs,thePlatform)
+        jobs <- model.removeLinkedNoR(jobs)
+        view.showTableJob(jobs,output)
+        view.showSelectCreateJob()
+      },
+      message = "Retrieving list of jobs from Saagie")
     })
 
     # Three functions for formate the document who containing the R Script
@@ -278,7 +284,7 @@ Saagie <- function(data, xvar, yvar) {
     # Replace the default stopApp(stop( ... )) with stopApp(message( ... ))
     # because we set stopOnCancel to FALSE in runGadget()
     observeEvent(input$cancel, {
-      stopApp(message("Cancelled Saagie interaction"))
+      stopApp(message(""))
     })
     # Deal with closing the add-in with the 'x' box instead of the 'Cancel' button
     session$onSessionEnded(function() {

@@ -99,15 +99,17 @@ model.JobRPlatform <- function(path){
   dataPlatform <- model.readThePlatform(path)
   reponse <- GET(paste(dataPlatform[1,4],"/api/v1/platform/",dataPlatform[1,5],"/job",sep=""),
                  authenticate(dataPlatform[1,1],base64Decode(dataPlatform[1,3]),type="basic"))
+  # TODO: Replace "as = 'parsed'" since it is strongly discouraged in a package. See 'help(content)'
   job <- content(reponse,as="parsed",type="application/json")
   j=1
   listJob <- model.readTableJob(path)
   for(i in seq_along(job)){
     if(job[[i]]["capsule_code"]=="r"){
-      listJob[j,1] <- job[[i]][1]
-      listJob[j,2] <- job[[i]][2]
-      listJob[j,3] <- job[[i]][3]
-      listJob[j,4] <- job[[i]][4]
+      listJob[j, 1:4] <- job[[i]][1:4]
+      # listJob[j,1] <- job[[i]][1]
+      # listJob[j,2] <- job[[i]][2]
+      # listJob[j,3] <- job[[i]][3]
+      # listJob[j,4] <- job[[i]][4]
       j = j+1
     }
   }
@@ -159,14 +161,16 @@ model.runJob <- function(thePlatform,reponseAdd){
 
 # Empty the file who containing the Job
 model.rmJob <- function(path){
-  data <- model.readTableJob(path = path)
-  # data <- read.csv(file= file.path(path, "platform", "job.csv"),sep=",", stringsAsFactors = FALSE)
-  if(nrow(data)!=0){
-    for(i in 0:nrow(data)){
-      data <- data[-i,]
-    }
-    data <- write.csv(data,file = file.path(path, "platform", "job.csv"), row.names = FALSE)
-  }
+  # data <- model.readTableJob(path = path)
+  # # data <- read.csv(file= file.path(path, "platform", "job.csv"),sep=",", stringsAsFactors = FALSE)
+  # if(nrow(data)!=0){
+  #   for(i in 0:nrow(data)){
+  #     data <- data[-i,]
+  #   }
+  #   data <- write.csv(data,file = file.path(path, "platform", "job.csv"), row.names = FALSE)
+  # }
+  data <- data.frame("idJob" = integer(0), "R" = character(0), "Category" = character(0), "Script" = character(0), stringsAsFactors = FALSE)
+  write.csv(data, file = file.path(path, "platform", "job.csv"), row.names = FALSE)
 }
 
 # Add the default platform

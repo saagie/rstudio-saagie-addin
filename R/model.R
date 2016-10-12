@@ -70,6 +70,7 @@ model.updateTablePlatform <- function(path, input){
   dataPlatform <- model.readTablePlatform(path)
   # if(nrow(dataPlatform) == 0){
   #   # Trouver une solution pour quand il n'y a rien dans le fichier !
+  #   # A solution has been implemented in model.readTablePlatform()
   # }
   if(input$addPlatform){
     nb <- nrow(dataPlatform)+1
@@ -84,6 +85,10 @@ model.updateTablePlatform <- function(path, input){
       }
     }
     write.csv(dataPlatform, file = file.path(path, "platform", "platform.csv"), row.names = FALSE)
+    # If this is the first platform to be added, also add it to 'thePlatform.csv' (current platform)
+    if (nrow(model.readThePlatform(path)) == 0) {
+      write.csv(dataPlatform[nb, ], file = file.path(path, "platform", "thePlatform.csv"), row.names = FALSE)
+    }
   }
 }
 
@@ -135,7 +140,7 @@ model.uploadFile <- function(thePlatform, pathNameFile){
 
 # Post a Job
 model.uploadJob <- function(input,thePlatform,fileName){
-  POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job",sep=""),
+  req_ <-  POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job",sep=""),
        authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"),
        body=list(platformId = thePlatform[1,5], capsule_code = "r", category = "processing",
                  manual = TRUE, current =list(template=input$createCommandLine, file=fileName[[1]]), options=list(""),
@@ -155,7 +160,7 @@ model.runJob <- function(thePlatform,reponseAdd){
   addDeployName <- content(reponseAdd,as="parsed",type="application/json")
   idJobPlatform <- addDeployName[[1]]
   urlRunJob <- paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJobPlatform,"/run",sep="")
-  POST(urlRunJob,authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
+  req_ <-POST(urlRunJob,authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
   return(idJobPlatform)
 }
 
@@ -189,7 +194,8 @@ model.addThePlatformInFile <- function(path, userGo,platformNameGo,mdp,adressPla
   platformRun[1,3] <- mdp
   platformRun[1,4] <- adressPlatform
   platformRun[1,5] <- numPlatform
-  write.csv(platformRun,file = file.path(path, "platform", "thePlatform.csv"), row.names = FALSE)
+  if (complete.cases(platformRun)) write.csv(platformRun,file = file.path(path, "platform", "thePlatform.csv"), row.names = FALSE)
+  invisible(NULL)
 }
 
 # Add the select platform
@@ -248,7 +254,7 @@ model.upgradeJob <- function(path, input,idJob,pathNameFile){
 
 # Post a new version (upgrade)
 model.newVersion <- function(input,thePlatform,idJob,fileName){
-  POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob,"/version", sep=""),
+  req_ <- POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob,"/version", sep=""),
        authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"),
        body=list(platformId = 2, capsule_code = "r", category = "processing",
                  manual = TRUE, current =list(template=input$upgradeCommandLine, file=fileName[[1]]), options=list(""),

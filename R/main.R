@@ -67,22 +67,28 @@ Saagie <- function(data, xvar, yvar) {
 
     # Displays the page "Select or create a new job"
     observeEvent(input$createJob, { # | input$refresh | input$previousUpgradeJob | input$previousBarCreateNewJob, {
-      withProgress({
-        # model.rmJob(path_to_persistent_saagie_files)
-        # API request to retrieve list of jobs and write to local file
-        model.JobRPlatform(path_to_persistent_saagie_files)
-        # Read list of jobs from local file
-        jobs <- model.readTableJob(path_to_persistent_saagie_files)
-        # Read 'current' platform from local file
-        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-        # Loop over jobs to get their details. One API request per job!
-        jobs <- model.currentVersion(jobs,thePlatform)
-        # Loop over jobs to classify them according to file name extensions etc
-        jobs <- model.removeLinkedNoR(jobs)
-      },
-      message = "Retrieving list of R jobs from Saagie")
-      view.showTableJob(jobs,output)
-      view.showSelectCreateJob()
+      if (
+        # nrow(model.readThePlatform(path_to_persistent_saagie_files)) == 0 &&
+        nrow(model.readTablePlatform(path_to_persistent_saagie_files)) == 0) {
+        info("Add at least one platform")
+      } else {
+        withProgress({
+          # model.rmJob(path_to_persistent_saagie_files)
+          # API request to retrieve list of jobs and write to local file
+          model.JobRPlatform(path_to_persistent_saagie_files)
+          # Read list of jobs from local file
+          jobs <- model.readTableJob(path_to_persistent_saagie_files)
+          # Read 'current' platform from local file
+          thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+          # Loop over jobs to get their details. One API request per job!
+          jobs <- model.currentVersion(jobs,thePlatform)
+          # Loop over jobs to classify them according to file name extensions etc
+          jobs <- model.removeLinkedNoR(jobs)
+        },
+        message = "Retrieving list of R jobs from Saagie")
+        view.showTableJob(jobs,output)
+        view.showSelectCreateJob()
+      }
     })
 
     # Displays the page "Create a new job"

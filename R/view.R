@@ -111,18 +111,20 @@ view.showTablePlatform <- function(dataPlatform,output){
   dataPlatformCopy <- dataPlatform
   dataPlatformCopy <- dataPlatformCopy[,-3:-5]
   names(dataPlatformCopy) <-c("User","Platform Name")
-  output$table <- DT::renderDataTable(DT::datatable
-                                      (dataPlatformCopy,
-                                      options=list(searching=FALSE, paging=FALSE, info=FALSE)),
-                                      server = TRUE)
+  output$table <- DT::renderDataTable(DT::datatable(
+    dataPlatformCopy,
+    options=list(searching=FALSE, paging=FALSE, info=FALSE),
+    selection = list(mode = "single", selected = 1, target = "row")
+  ), server = TRUE)
 }
 
 # Show the table containing the names of Job (in page "Select or Create New Job")
 view.showTableJob <- function(jobs,output){
   names(jobs) <-  c("Category", "Current Version","Linked R Script","Job Name")
-  output$newJob <- DT::renderDataTable(DT::datatable
-                                       (jobs,options=list(searching=FALSE, paging=FALSE, info=FALSE)),
-                                       server=TRUE)
+  output$newJob <- DT::renderDataTable(DT::datatable(
+    jobs,options=list(searching=FALSE, paging=FALSE, info=FALSE),
+    selection = list(mode = "single", selected = 1, target = "row")
+  ), server=TRUE)
 }
 
 # Details page "Add Platform"

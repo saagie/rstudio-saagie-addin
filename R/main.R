@@ -66,7 +66,7 @@ Saagie <- function(data, xvar, yvar) {
     observe(validator.mail(input))
 
     # Displays the page "Select or create a new job"
-    observeEvent(input$createJob,{
+    observeEvent(input$createJob, { # | input$refresh | input$previousUpgradeJob | input$previousBarCreateNewJob, {
       withProgress({
         # model.rmJob(path_to_persistent_saagie_files)
         # API request to retrieve list of jobs and write to local file
@@ -77,11 +77,12 @@ Saagie <- function(data, xvar, yvar) {
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         # Loop over jobs to get their details. One API request per job!
         jobs <- model.currentVersion(jobs,thePlatform)
+        # Loop over jobs to classify them according to file name extensions etc
         jobs <- model.removeLinkedNoR(jobs)
-        view.showTableJob(jobs,output)
-        view.showSelectCreateJob()
       },
       message = "Retrieving list of R jobs from Saagie")
+      view.showTableJob(jobs,output)
+      view.showSelectCreateJob()
     })
 
     # Displays the page "Create a new job"
@@ -93,18 +94,16 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the previous page ("Add Platform" -> "Select Platform")
     observeEvent(input$previousAddPlatform,view.showSelectPlatform())
 
+    # Factorized with input$createJob ??
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
-    observeEvent(input$previousUpgradeJob, {
-      view.showSelectCreateJob()
-    })
+    observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
 
     # Displays the previous page ("Select or create job" -> "Select Platform")
     observeEvent(input$previousSelectCreateJob,view.showSelectPlatform())
 
+    # Factorized with input$createJob ??
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
-    observeEvent(input$previousBarCreateNewJob, {
-      view.showSelectCreateJob()
-    })
+    observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
 
     # Choice of the platform and Add the platform in file containing the platform
     output$rowSelectPlatform = renderPrint({
@@ -243,6 +242,7 @@ Saagie <- function(data, xvar, yvar) {
       # })
     })
 
+    # Factorized with input$createJob ??
     # Refresh a page "Select or Create new Job"
     observeEvent(input$refresh, {
       withProgress({
@@ -252,10 +252,10 @@ Saagie <- function(data, xvar, yvar) {
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         jobs <- model.currentVersion(jobs,thePlatform)
         jobs <- model.removeLinkedNoR(jobs)
-        view.showTableJob(jobs,output)
-        view.showSelectCreateJob()
       },
       message = "Retrieving list of jobs from Saagie")
+      view.showTableJob(jobs,output)
+      view.showSelectCreateJob()
     })
 
     # Three functions for formate the document who containing the R Script

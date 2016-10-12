@@ -102,14 +102,40 @@ Saagie <- function(data, xvar, yvar) {
 
     # Factorized with input$createJob ??
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
-    observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
+    # observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
+    observeEvent(input$previousUpgradeJob, {
+      withProgress({
+        # model.rmJob(path_to_persistent_saagie_files)
+        model.JobRPlatform(path_to_persistent_saagie_files)
+        jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        jobs <- model.currentVersion(jobs,thePlatform)
+        jobs <- model.removeLinkedNoR(jobs)
+      },
+      message = "Retrieving list of jobs from Saagie")
+      view.showTableJob(jobs,output)
+      view.showSelectCreateJob()
+    })
 
     # Displays the previous page ("Select or create job" -> "Select Platform")
     observeEvent(input$previousSelectCreateJob,view.showSelectPlatform())
 
     # Factorized with input$createJob ??
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
-    observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
+    # observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
+    observeEvent(input$previousBarCreateNewJob, {
+      withProgress({
+        # model.rmJob(path_to_persistent_saagie_files)
+        model.JobRPlatform(path_to_persistent_saagie_files)
+        jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        jobs <- model.currentVersion(jobs,thePlatform)
+        jobs <- model.removeLinkedNoR(jobs)
+      },
+      message = "Retrieving list of jobs from Saagie")
+      view.showTableJob(jobs,output)
+      view.showSelectCreateJob()
+    })
 
     # Choice of the platform and Add the platform in file containing the platform
     output$rowSelectPlatform = renderPrint({

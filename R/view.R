@@ -390,22 +390,23 @@ view.downloadLogUpgrade <- function(){
   show("downloadDataStderrUpgrade")
 }
 
-view.BarProgress <- function(){
-  if (identical(.Platform$OS.type, "windows")) {
-    pb <- winProgressBar
-    setPb <- setWinProgressBar
-  } else {
-    pb <- tcltk::tkProgressBar
-    setPb <- tcltk::setTkProgressBar
-  }
-  initializeBar <- pb(title="Run the job And Recover logs", label="0% done", min=0, max=100, initial=0)
-  for(i in 1:100) {
-    Sys.sleep(0.1) # slow down the code for illustration purposes
-    info <- sprintf("%d%% done", round((i/100)*100))
-    setPb(initializeBar, i/(100)*100, label=info)
-  }
-  close(initializeBar)
-}
+# To be completely removed. When turning the 'Run' functionnality back on, use the more appropriate shiny::withProgress
+# view.BarProgress <- function(){
+#   if (identical(.Platform$OS.type, "windows")) {
+#     pb <- winProgressBar
+#     setPb <- setWinProgressBar
+#   } else {
+#     pb <- tcltk::tkProgressBar
+#     setPb <- tcltk::setTkProgressBar
+#   }
+#   initializeBar <- pb(title="Run the job And Recover logs", label="0% done", min=0, max=100, initial=0)
+#   for(i in 1:100) {
+#     Sys.sleep(0.1) # slow down the code for illustration purposes
+#     info <- sprintf("%d%% done", round((i/100)*100))
+#     setPb(initializeBar, i/(100)*100, label=info)
+#   }
+#   close(initializeBar)
+# }
 
 # Displays a message where is writing the file Stdout
 view.messagePathStdout <- function(){

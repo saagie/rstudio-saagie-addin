@@ -69,9 +69,13 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$createJob,{
       withProgress({
         # model.rmJob(path_to_persistent_saagie_files)
+        # API request to retrieve list of jobs and write to local file
         model.JobRPlatform(path_to_persistent_saagie_files)
+        # Read list of jobs from local file
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        # Read 'current' platform from local file
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        # Loop over jobs to get their details. One API request per job!
         jobs <- model.currentVersion(jobs,thePlatform)
         jobs <- model.removeLinkedNoR(jobs)
         view.showTableJob(jobs,output)
@@ -90,13 +94,17 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$previousAddPlatform,view.showSelectPlatform())
 
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
-    observeEvent(input$previousUpgradeJob,view.showSelectCreateJob())
+    observeEvent(input$previousUpgradeJob, {
+      view.showSelectCreateJob()
+    })
 
     # Displays the previous page ("Select or create job" -> "Select Platform")
     observeEvent(input$previousSelectCreateJob,view.showSelectPlatform())
 
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
-    observeEvent(input$previousBarCreateNewJob,view.showSelectCreateJob())
+    observeEvent(input$previousBarCreateNewJob, {
+      view.showSelectCreateJob()
+    })
 
     # Choice of the platform and Add the platform in file containing the platform
     output$rowSelectPlatform = renderPrint({
@@ -153,11 +161,13 @@ Saagie <- function(data, xvar, yvar) {
     })
     # Formate the document who containing the R Script
     reactiveDocument <- reactive({
-      formatted <- formatR::tidy_source(
-        text = context$contents,
-        output = FALSE
-      )$text.tidy
-      formatted
+      tryCatch({
+        formatR::tidy_source(text = context$contents, output = FALSE)$text.tidy
+      },
+      error = function(cond) {
+        info("Code could not be automatically formatted.\nIt may be caused by syntactically incorrect R code, or by comments in the middle of an expression.\nThe add-in will now procede with unformatted code.")
+        context$contents
+      })
     })
 
     # Displays a code of script R

@@ -60,7 +60,8 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$upgradeJob, view.showUpgrade())
 
     # Control if the fields are not empty in the page "Add Platform"
-    observe(validator.infoPlatform(path_to_persistent_saagie_files, input))
+    # observe(validator.infoPlatform(path_to_persistent_saagie_files, input))
+    observeEvent(input$testConnection, validator.testConnection(path_to_persistent_saagie_files, input))
 
     # Control if the fields "mail" is correct
     observe(validator.mail(input))
@@ -72,7 +73,7 @@ Saagie <- function(data, xvar, yvar) {
         nrow(model.readTablePlatform(path_to_persistent_saagie_files)) == 0) {
         info("Add at least one platform")
       } else {
-        withProgress({
+        # withProgress({
           # model.rmJob(path_to_persistent_saagie_files)
           # API request to retrieve list of jobs and write to local file
           model.JobRPlatform(path_to_persistent_saagie_files)
@@ -84,8 +85,7 @@ Saagie <- function(data, xvar, yvar) {
           jobs <- model.currentVersion(jobs,thePlatform)
           # Loop over jobs to classify them according to file name extensions etc
           jobs <- model.removeLinkedNoR(jobs)
-        },
-        message = "Retrieving list of R jobs from Saagie")
+        # }, message = "Retrieving list of R jobs from Saagie")
         view.showTableJob(jobs,output)
         view.showSelectCreateJob()
       }
@@ -104,15 +104,14 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
     # observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
     observeEvent(input$previousUpgradeJob, {
-      withProgress({
+      # withProgress({
         # model.rmJob(path_to_persistent_saagie_files)
         model.JobRPlatform(path_to_persistent_saagie_files)
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         jobs <- model.currentVersion(jobs,thePlatform)
         jobs <- model.removeLinkedNoR(jobs)
-      },
-      message = "Retrieving list of jobs from Saagie")
+      # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
@@ -124,15 +123,14 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
     # observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
     observeEvent(input$previousBarCreateNewJob, {
-      withProgress({
+      # withProgress({
         # model.rmJob(path_to_persistent_saagie_files)
         model.JobRPlatform(path_to_persistent_saagie_files)
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         jobs <- model.currentVersion(jobs,thePlatform)
         jobs <- model.removeLinkedNoR(jobs)
-      },
-      message = "Retrieving list of jobs from Saagie")
+      # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
@@ -277,15 +275,14 @@ Saagie <- function(data, xvar, yvar) {
     # Factorized with input$createJob ??
     # Refresh a page "Select or Create new Job"
     observeEvent(input$refresh, {
-      withProgress({
+      # withProgress({
         # model.rmJob(path_to_persistent_saagie_files)
         model.JobRPlatform(path_to_persistent_saagie_files)
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         jobs <- model.currentVersion(jobs,thePlatform)
         jobs <- model.removeLinkedNoR(jobs)
-      },
-      message = "Retrieving list of jobs from Saagie")
+      # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })

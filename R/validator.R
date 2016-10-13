@@ -11,10 +11,12 @@ validator.infoPlatform <- function(path, input){
 
 # Check the connection to the platform
 validator.testConnection <- function(path, input){
-  repCon <- GET(paste(input$platformURL,"/login",sep=""),authenticate(input$user,input$password,type="basic"))
+  # repCon <- GET(paste(input$platformURL,"/login",sep=""),authenticate(input$user,input$password,type="basic"))
+  repCon <- model.recoverNamePlatform(path, input)
   status <- httr::http_status(repCon)
   namePlatform <- model.readNamePlatform(path)
   model.rmNamePlatform(path, namePlatform)
+  # One cannot rely on 'status' == 'Success' or 200 because bad login results in 200
   if(status[[1]]=="Success"){
     model.recoverNamePlatform(path, input)
     view.successConnection()

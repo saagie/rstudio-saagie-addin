@@ -102,8 +102,10 @@ model.updateTablePlatform <- function(path, input){
 #'
 model.JobRPlatform <- function(path){
   dataPlatform <- model.readThePlatform(path)
-  reponse <- GET(paste(dataPlatform[1,4],"/api/v1/platform/",dataPlatform[1,5],"/job",sep=""),
-                 authenticate(dataPlatform[1,1],base64Decode(dataPlatform[1,3]),type="basic"))
+  withProgress({
+    reponse <- GET(paste(dataPlatform[1,4],"/api/v1/platform/",dataPlatform[1,5],"/job",sep=""),
+                   authenticate(dataPlatform[1,1],base64Decode(dataPlatform[1,3]),type="basic"))
+  }, message = "Retrieving list of jobs from Saagie")
   # TODO: Replace "as = 'parsed'" since it is strongly discouraged in a package. See 'help(content)'
   job <- content(reponse,as="parsed",type="application/json")
   j=1
@@ -238,6 +240,8 @@ model.recoverNamePlatform <- function(path, input){
                   authenticate(input$user,input$password,type="basic"))
   repPlatform <- content(platform,as="parsed",type="application/json")
   model.addNamePlatform(path, repPlatform)
+  # Return result of API request
+  platform
 }
 
 # Upgrade a job in the platform Saagie
@@ -281,14 +285,16 @@ model.postUpgrade <- function(thePlatform,idJob,fileName){
 
 # Return a current version of job R
 model.currentVersion <- function(jobs,thePlatform){
-  for (i in seq_len(nrow(jobs))) {
-    response <- GET(paste0(thePlatform[1, 4], "/api/v1/platform/", thePlatform[1, 5], "/job/", jobs[i,1]),
-                    authenticate(thePlatform[1, 1], base64Decode(thePlatform[1, 3]), type = "basic"))
-    detailsJob <- content(response, as = "parsed", type = "application/json")
-    jobs[i, 5] <- detailsJob[[3]][[3]]
-    jobs[i, 6] <- detailsJob[[3]][[5]]
-    jobs[i, 7] <- detailsJob[[7]]
-  }
+  withProgress({
+    for (i in seq_len(nrow(jobs))) {
+      response <- GET(paste0(thePlatform[1, 4], "/api/v1/platform/", thePlatform[1, 5], "/job/", jobs[i,1]),
+                      authenticate(thePlatform[1, 1], base64Decode(thePlatform[1, 3]), type = "basic"))
+      detailsJob <- content(response, as = "parsed", type = "application/json")
+      jobs[i, 5] <- detailsJob[[3]][[3]]
+      jobs[i, 6] <- detailsJob[[3]][[5]]
+      jobs[i, 7] <- detailsJob[[7]]
+    }
+  }, message = "Retrieving details for each job from Saagie")
   jobs <- jobs[, -1:-3]
   #print(jobs[i, 6])
   return(jobs)

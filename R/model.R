@@ -107,7 +107,7 @@ model.JobRPlatform <- function(path){
                    authenticate(dataPlatform[1,1],base64Decode(dataPlatform[1,3]),type="basic"))
   }, message = "Retrieving list of jobs from Saagie")
   # TODO: Replace "as = 'parsed'" since it is strongly discouraged in a package. See 'help(content)'
-  job <- content(reponse,as="parsed",type="application/json")
+  job <- content(reponse,type="application/json")
   j=1
   listJob <- model.readTableJob(path)
   for(i in seq_along(job)){
@@ -136,7 +136,7 @@ model.uploadFile <- function(thePlatform, pathNameFile){
   reponseFile <- POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/upload",sep=""),
                       authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"),
                       body=list(file = httr::upload_file(pathNameFile)), httr::verbose())
-  fileName <- content(reponseFile,as="parsed",type="application/json")
+  fileName <- content(reponseFile,type="application/json")
   return(fileName)
 }
 
@@ -159,7 +159,7 @@ model.uploadJob <- function(input,thePlatform,fileName){
 #' @importFrom httr POST
 #'
 model.runJob <- function(thePlatform,reponseAdd){
-  addDeployName <- content(reponseAdd,as="parsed",type="application/json")
+  addDeployName <- content(reponseAdd,type="application/json")
   idJobPlatform <- addDeployName[[1]]
   urlRunJob <- paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJobPlatform,"/run",sep="")
   req_ <-POST(urlRunJob,authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
@@ -238,7 +238,7 @@ model.addNamePlatform <- function(path, repPlatform) {
 model.recoverNamePlatform <- function(path, input){
   platform <- GET(paste(input$platformURL,"/api/v1/platform", sep=""),
                   authenticate(input$user,input$password,type="basic"))
-  repPlatform <- content(platform,as="parsed",type="application/json")
+  repPlatform <- content(platform,type="application/json")
   model.addNamePlatform(path, repPlatform)
   # Return result of API request
   platform
@@ -270,7 +270,7 @@ model.newVersion <- function(input,thePlatform,idJob,fileName){
 model.infoJobUpgrade <- function(thePlatform,idJob){
   reponse <- GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob,sep=""),
                  authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
-  infoJob <- content(reponse,as="parsed", type="application/json")
+  infoJob <- content(reponse,type="application/json")
 }
 
 # Post a upgrade
@@ -289,7 +289,7 @@ model.currentVersion <- function(jobs,thePlatform){
     for (i in seq_len(nrow(jobs))) {
       response <- GET(paste0(thePlatform[1, 4], "/api/v1/platform/", thePlatform[1, 5], "/job/", jobs[i,1]),
                       authenticate(thePlatform[1, 1], base64Decode(thePlatform[1, 3]), type = "basic"))
-      detailsJob <- content(response, as = "parsed", type = "application/json")
+      detailsJob <- content(response, type = "application/json")
       jobs[i, 5] <- detailsJob[[3]][[3]]
       jobs[i, 6] <- detailsJob[[3]][[5]]
       jobs[i, 7] <- detailsJob[[7]]
@@ -304,11 +304,11 @@ model.currentVersion <- function(jobs,thePlatform){
 model.showLog <- function(thePlatform,idJob){
   reponseLog <- GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob, "/jobinstance", sep=""),
                     authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
-  infoLog <- content(reponseLog,as="parsed", type="application/json")
+  infoLog <- content(reponseLog, type="application/json")
   idLog <- infoLog[[1]]$id
   test <- GET(paste(thePlatform[1,4],"/api/v1/jobinstance/",idLog, sep=""),
               authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
-  logsJob <- content(test, as="parsed", type="application/json")
+  logsJob <- content(test, type="application/json")
   return(list(LogsJob = logsJob, IdLog = idLog))
 }
 

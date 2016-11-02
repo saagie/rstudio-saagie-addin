@@ -181,13 +181,14 @@ Saagie <- function(data, xvar, yvar) {
       }
     })
 
-    tryCatch({
-      context <- rstudioapi::getSourceEditorContext()
-    },
-    error = function(cond) {
-      info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
-      stopApp(cond)
-    })
+    # tryCatch({
+    #   context <- rstudioapi::getSourceEditorContext()
+    # },
+    # error = function(cond) {
+    #   info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
+    #   stopApp(cond)
+    # })
+    
     # Formate the document who containing the R Script
     reactiveDocument <- reactive({
       tryCatch({
@@ -329,11 +330,12 @@ Saagie <- function(data, xvar, yvar) {
     # Replace the default stopApp(stop( ... )) with stopApp(message( ... ))
     # because we set stopOnCancel to FALSE in runGadget()
     observeEvent(input$cancel, {
-      stopApp(message(""))
+      stopApp()
     })
+    
     # Deal with closing the add-in with the 'x' box instead of the 'Cancel' button
     session$onSessionEnded(function() {
-      stopApp(message("Cancelled Saagie interaction"))
+      stopApp(view.messageClose())
     })
   
     

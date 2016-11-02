@@ -419,3 +419,8 @@ view.messagePathStdout <- function(){
 view.messagePathStderr <- function(){
   print(paste("Hey I'm writing to saagie-stderr.csv in", getwd(), "/inst/file", sep=""))
 }
+
+# Displays a message when close addin
+view.messageClose <- function(){
+  message("Cancelled Saagie interaction")
+}

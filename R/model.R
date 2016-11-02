@@ -294,11 +294,10 @@ model.currentVersion <- function(jobs,thePlatform){
       jobs[i, 6] <- detailsJob[[3]][[5]]
       jobs[i, 7] <- detailsJob[[7]]
     }
-  }, message = "Retrieving details for each job from Saagie")
+  }, message = view.messageBarProgress())
   jobs <- jobs[, -1:-3]
   #print(jobs[i, 6])
   return(jobs)
-
 }
 
 # Recover a log

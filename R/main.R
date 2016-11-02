@@ -180,13 +180,15 @@ Saagie <- function(data, xvar, yvar) {
         view.multipleJob()
       }
     })
+    
+    context <- rstudioapi::getActiveDocumentContext()
 
     # tryCatch({
     #   context <- rstudioapi::getSourceEditorContext()
     # },
     # error = function(cond) {
-    #   info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
-    #   stopApp(cond)
+    #    info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
+    #    stopApp(cond)
     # })
     
     # Formate the document who containing the R Script
@@ -332,7 +334,6 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$cancel, {
       stopApp()
     })
-    
     # Deal with closing the add-in with the 'x' box instead of the 'Cancel' button
     session$onSessionEnded(function() {
       stopApp(view.messageClose())

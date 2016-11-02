@@ -166,12 +166,12 @@ view.pageUpgradeJob <- function(){
            shinyjs::hidden(div(id = "viewCodeUpgrade",uiOutput("documentUpgrade",
                                                                container = rCodeContainer,
                                                                inline=TRUE))),
-           mainPanel(
-             tabsetPanel(type= "tabs",
-                         tabPanel("Manual",textInput("manualUpgrade","")),
-                         tabPanel("Schedule",textInput("scheduleUpgrade",""))
-             )
-           ),
+           # mainPanel(
+           #   tabsetPanel(type= "tabs",
+           #               tabPanel("Manual",textInput("manualUpgrade","")),
+           #               tabPanel("Schedule",textInput("scheduleUpgrade",""))
+           #   )
+           # ),
            actionButton("upgradeDeploy","Upgrade & deploy", icon = icon("upload", lib="font-awesome"))
     ),
     column(6,
@@ -209,14 +209,14 @@ view.pageCreateNewJob <- function(){
            textInput("createEmail","Email"),
            checkboxInput("viewDocument","Preview the code"),
            shinyjs::hidden(div(id = "viewCode",uiOutput("document", container = rCodeContainer, inline=TRUE))),
-           mainPanel(
-             #align="center",
-             tabsetPanel(type= "tabs",
-                         #align="center",
-                         tabPanel("Manual",textInput("manualCreate","")),
-                         tabPanel("Schedule",textInput("scheduleCreate",""))
-             )
-           ),
+           # mainPanel(
+           #   #align="center",
+           #   tabsetPanel(type= "tabs",
+           #               #align="center",
+           #               tabPanel("Manual",textInput("manualCreate","")),
+           #               tabPanel("Schedule",textInput("scheduleCreate",""))
+           #   )
+           # ),
            column(12,
                   actionButton("addDeploy","Add & deploy",
                                style='background-color:#EBECEC; color:#595B60; font-weight: bold')
@@ -321,8 +321,8 @@ view.errorConnection <- function(){
 view.recoverNameFile <- function(){
   context <- rstudioapi::callFun("getActiveDocumentContext")
   if(is.null(context)){
-    message("Cancel the message Box and Open a R Script !")
-    quit()
+   message("Cancel the message Box and Open a R Script !")
+   quit()
   }else{
   nameFileR <- rstudioapi::getActiveDocumentContext()
   nameFileR <- nameFileR[2]
@@ -423,4 +423,8 @@ view.messagePathStderr <- function(){
 # Displays a message when close addin
 view.messageClose <- function(){
   message("Cancelled Saagie interaction")
+}
+
+view.messageBarProgress <- function (){
+  "Retrieving details for each job from Saagie"
 }

@@ -162,7 +162,7 @@ view.pageUpgradeJob <- function(){
     column(6,
            br(),
            textInput("upgradeCommandLine", "Command Line", value="Rscript {file} arg1 arg2"),
-           checkboxInput("viewDocumentUpgrade","Preview the code"),
+           #checkboxInput("viewDocumentUpgrade","Preview the code"),
            shinyjs::hidden(div(id = "viewCodeUpgrade",uiOutput("documentUpgrade",
                                                                container = rCodeContainer,
                                                                inline=TRUE))),
@@ -207,7 +207,7 @@ view.pageCreateNewJob <- function(){
            textInput("createJobName","Job Name",value=view.recoverNameFile()),
            textInput("createCommandLine", "Command Line", value="Rscript {file} arg1 arg2"),
            textInput("createEmail","Email"),
-           checkboxInput("viewDocument","Preview the code"),
+           #checkboxInput("viewDocument","Preview the code"),
            shinyjs::hidden(div(id = "viewCode",uiOutput("document", container = rCodeContainer, inline=TRUE))),
            # mainPanel(
            #   #align="center",

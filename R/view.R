@@ -335,22 +335,22 @@ view.recoverNameFile <- function(){
 
 
 # Displays the script who Run in a platform
-view.script <- function(input){
-  if(input$viewDocument == TRUE || input$viewDocumentUpgrade == TRUE ){
-    show("viewCode")
-  }else{
-    shinyjs::hide("viewCode")
-  }
-}
+# view.script <- function(input){
+#   if(input$viewDocument == TRUE || input$viewDocumentUpgrade == TRUE ){
+#     show("viewCode")
+#   }else{
+#     shinyjs::hide("viewCode")
+#   }
+# }
 
 # Displays the script who Run in a platform
-view.scriptUpgrade <- function(input){
-  if(input$viewDocumentUpgrade == TRUE ){
-    show("viewCodeUpgrade")
-  }else{
-    shinyjs::hide("viewCodeUpgrade")
-  }
-}
+# view.scriptUpgrade <- function(input){
+#   if(input$viewDocumentUpgrade == TRUE ){
+#     show("viewCodeUpgrade")
+#   }else{
+#     shinyjs::hide("viewCodeUpgrade")
+#   }
+# }
 
 # Displays the name Job who upgrade
 view.nameJobUpgrade <- function(nameJob){

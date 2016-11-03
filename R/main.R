@@ -2,7 +2,6 @@
 # source("R/view.R")
 # source("R/validator.R")
 # source("R/model.R")
-
 #' Saagie Addin Main Function
 #'
 #' @param data We don't know yet.
@@ -20,12 +19,11 @@ Saagie <- function(data, xvar, yvar) {
   # (TODO: deal with RStudio Server (which has "~/.rstudio/" instead of "~/.rstudio-desktop/"))
   # if(!dir.exists("~/.rstudio-desktop/Saagie") dir.create("~/.rstudio-desktop/Saagie")
   # DONE
-
+  
   # Displays the User Interface
   ui <- shinyUI(view.activate())
-
   server <- function(input, output, session) {
-  
+    
     # # A persistent directory for the Saagie addin in the hidden ".rstudio" directory
     # if (identical(.Platform$OS.type, "windows")) {
     #   path_to_persistent_saagie_files <- file.path(win_path_env("local"), "RStudio-Desktop", "Saagie")
@@ -44,10 +42,8 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the table containing the name of the platform and the names of users
     dataPlatform <- model.readTablePlatform(path_to_persistent_saagie_files)
     view.showTablePlatform(dataPlatform,output)
-
     # Displays the page "Add a platform"
     observeEvent(input$addPlatform, view.showAddPlatform())
-
     # Displays the page "Select a platform" and update the table
     observeEvent(input$addSelectPlatform, {
       model.updateTablePlatform(path_to_persistent_saagie_files, input)
@@ -55,17 +51,13 @@ Saagie <- function(data, xvar, yvar) {
       view.showTablePlatform(dataPlatform,output)
       view.showSelectPlatform()
     })
-
     # Displays the page "Upgrade a job"
     observeEvent(input$upgradeJob, view.showUpgrade())
-
     # Control if the fields are not empty in the page "Add Platform"
     # observe(validator.infoPlatform(path_to_persistent_saagie_files, input))
     observeEvent(input$testConnection, validator.testConnection(path_to_persistent_saagie_files, input))
-
     # Control if the fields "mail" is correct
     observe(validator.mail(input))
-
     # Displays the page "Select or create a new job"
     observeEvent(input$createJob, { # | input$refresh | input$previousUpgradeJob | input$previousBarCreateNewJob, {
       if (
@@ -74,67 +66,60 @@ Saagie <- function(data, xvar, yvar) {
         info("Add at least one platform")
       } else {
         # withProgress({
-          # model.rmJob(path_to_persistent_saagie_files)
-          # API request to retrieve list of jobs and write to local file
-          model.JobRPlatform(path_to_persistent_saagie_files)
-          # Read list of jobs from local file
-          jobs <- model.readTableJob(path_to_persistent_saagie_files)
-          # Read 'current' platform from local file
-          thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-          # Loop over jobs to get their details. One API request per job!
-          jobs <- model.currentVersion(jobs,thePlatform)
-          # Loop over jobs to classify them according to file name extensions etc
-          jobs <- model.removeLinkedNoR(jobs)
+        # model.rmJob(path_to_persistent_saagie_files)
+        # API request to retrieve list of jobs and write to local file
+        model.JobRPlatform(path_to_persistent_saagie_files)
+        # Read list of jobs from local file
+        jobs <- model.readTableJob(path_to_persistent_saagie_files)
+        # Read 'current' platform from local file
+        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+        # Loop over jobs to get their details. One API request per job!
+        jobs <- model.currentVersion(jobs,thePlatform)
+        # Loop over jobs to classify them according to file name extensions etc
+        jobs <- model.removeLinkedNoR(jobs)
         # }, message = "Retrieving list of R jobs from Saagie")
         view.showTableJob(jobs,output)
         view.showSelectCreateJob()
       }
     })
-
     # Displays the page "Create a new job"
     observeEvent(input$createNewJob, view.showCreateNewJob())
-
     # Control if the field "Job Name" isn't empty in the page "Create a New Job"
     observe(validator.infoJob(input))
-
     # Displays the previous page ("Add Platform" -> "Select Platform")
     observeEvent(input$previousAddPlatform,view.showSelectPlatform())
-
     # Factorized with input$createJob ??
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
     # observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
     observeEvent(input$previousUpgradeJob, {
       # withProgress({
-        # model.rmJob(path_to_persistent_saagie_files)
-        model.JobRPlatform(path_to_persistent_saagie_files)
-        jobs <- model.readTableJob(path_to_persistent_saagie_files)
-        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-        jobs <- model.currentVersion(jobs,thePlatform)
-        jobs <- model.removeLinkedNoR(jobs)
+      # model.rmJob(path_to_persistent_saagie_files)
+      model.JobRPlatform(path_to_persistent_saagie_files)
+      jobs <- model.readTableJob(path_to_persistent_saagie_files)
+      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
-
     # Displays the previous page ("Select or create job" -> "Select Platform")
     observeEvent(input$previousSelectCreateJob,view.showSelectPlatform())
-
     # Factorized with input$createJob ??
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
     # observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
     observeEvent(input$previousBarCreateNewJob, {
       # withProgress({
-        # model.rmJob(path_to_persistent_saagie_files)
-        model.JobRPlatform(path_to_persistent_saagie_files)
-        jobs <- model.readTableJob(path_to_persistent_saagie_files)
-        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-        jobs <- model.currentVersion(jobs,thePlatform)
-        jobs <- model.removeLinkedNoR(jobs)
+      # model.rmJob(path_to_persistent_saagie_files)
+      model.JobRPlatform(path_to_persistent_saagie_files)
+      jobs <- model.readTableJob(path_to_persistent_saagie_files)
+      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
-
     # Choice of the platform and Add the platform in file containing the platform
     output$rowSelectPlatform = renderPrint({
       nb_row = input$table_rows_selected
@@ -154,17 +139,14 @@ Saagie <- function(data, xvar, yvar) {
         view.multiplePlatform()
       }
     })
-
     # Reactive the file containing the name of platform
     searchResult <- reactive({
       model.readNamePlatform(path_to_persistent_saagie_files)
     })
-
     # Select the Platform
     output$selectPlatformName <- renderUI({
       selectInput("platformName", "Platform Name", searchResult()[,2])
     })
-
     # Select the job who upgrade
     output$rowSelectJob = renderPrint({
       nb_row = input$newJob_rows_selected
@@ -180,16 +162,14 @@ Saagie <- function(data, xvar, yvar) {
         view.multipleJob()
       }
     })
-    
-    context <- rstudioapi::getActiveDocumentContext()
 
-    # tryCatch({
-    #   context <- rstudioapi::getSourceEditorContext()
-    # },
-    # error = function(cond) {
-    #    info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
-    #    stopApp(cond)
-    # })
+    tryCatch({
+      context <- rstudioapi::getActiveDocumentContext()
+    },
+    error = function(cond) {
+      info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
+      stopApp(returnValue = invisible())
+    })
     
     # Formate the document who containing the R Script
     reactiveDocument <- reactive({
@@ -201,27 +181,24 @@ Saagie <- function(data, xvar, yvar) {
         context$contents
       })
     })
-
-    # Displays a code of script R
-    output$document <- renderCode({
-      document <- reactiveDocument()
-      highlightCode(session, "document")
-      document
-    })
-
-    # Displays a code of script R (Upgrade)
-    output$documentUpgrade <- renderCode({
-      documentUpgrade <- reactiveDocument()
-      highlightCode(session, "documentUpgrade")
-      documentUpgrade
-    })
-
+    
+    # # Displays a code of script R
+    # output$document <- renderCode({
+    #   document <- reactiveDocument()
+    #   highlightCode(session, "document")
+    #   document
+    # })
+    # # Displays a code of script R (Upgrade)
+    # output$documentUpgrade <- renderCode({
+    #   documentUpgrade <- reactiveDocument()
+    #   highlightCode(session, "documentUpgrade")
+    #   documentUpgrade
+    # })
+    
     # Reactive the previous of Script R
     observeEvent(input$viewDocument,{view.script(input)})
-
     # Reactive the previous of Script R (Upgrade)
     observeEvent(input$viewDocumentUpgrade, {view.scriptUpgrade(input)})
-
     # Add a job in the platform Saagie
     observeEvent(input$addDeploy,{
       document <- reactiveDocument()
@@ -243,10 +220,8 @@ Saagie <- function(data, xvar, yvar) {
       #   observeEvent(input$downloadDataStderr, {
       #     model.downloadStderr(info[['ThePlatform']],log)
       #   })
-
       # })
     })
-
     # Upgrade the Job
     observeEvent(input$upgradeDeploy,{
       document <- reactiveDocument()
@@ -274,33 +249,31 @@ Saagie <- function(data, xvar, yvar) {
       #   view.messagePathStderr()
       # })
     })
-
     # Factorized with input$createJob ??
     # Refresh a page "Select or Create new Job"
     observeEvent(input$refresh, {
       # withProgress({
-        # model.rmJob(path_to_persistent_saagie_files)
-        model.JobRPlatform(path_to_persistent_saagie_files)
-        jobs <- model.readTableJob(path_to_persistent_saagie_files)
-        thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-        jobs <- model.currentVersion(jobs,thePlatform)
-        jobs <- model.removeLinkedNoR(jobs)
+      # model.rmJob(path_to_persistent_saagie_files)
+      model.JobRPlatform(path_to_persistent_saagie_files)
+      jobs <- model.readTableJob(path_to_persistent_saagie_files)
+      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
-
     # Three functions for formate the document who containing the R Script
     injectHighlightHandler <- function() {
       code <- "
-       Shiny.addCustomMessageHandler('highlight-code', function(message) {
-       var id = message['id'];
-       setTimeout(function() {
-       var el = document.getElementById(id);
-       hljs.highlightBlock(el);
-       }, 100);
-       });
-       "
+      Shiny.addCustomMessageHandler('highlight-code', function(message) {
+      var id = message['id'];
+      setTimeout(function() {
+      var el = document.getElementById(id);
+      hljs.highlightBlock(el);
+      }, 100);
+      });
+      "
       tags$script(code)
     }
     includeHighlightJs <- function() {
@@ -314,13 +287,11 @@ Saagie <- function(data, xvar, yvar) {
     highlightCode <- function(session, id) {
       session$sendCustomMessage("highlight-code", list(id = id))
     }
-
     # Style of R Code
     rCodeContainer <- function(...) {
       code <- HTML(as.character(tags$code(class = "language-r", ...)))
       div(pre(code))
     }
-
     # Displays Image Saagie
     output$heron <- renderImage({
       # What is input$n ???
@@ -338,9 +309,9 @@ Saagie <- function(data, xvar, yvar) {
     session$onSessionEnded(function() {
       stopApp(view.messageClose())
     })
-  
     
-  }
+    
+}
   
   # The default stopOnCancel = TRUE causes an 
   # error (stopApp(stop("User cancel", call. = FALSE))) when the Cancel button is clicked

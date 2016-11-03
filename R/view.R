@@ -319,18 +319,20 @@ view.errorConnection <- function(){
 
 # Recover the name file R Script
 view.recoverNameFile <- function(){
-  context <- rstudioapi::callFun("getActiveDocumentContext")
-  if(is.null(context)){
-   message("Cancel the message Box and Open a R Script !")
-   quit()
-  }else{
-  nameFileR <- rstudioapi::getActiveDocumentContext()
-  nameFileR <- nameFileR[2]
-  nameFileR <- tstrsplit(nameFileR,"/")
-  num <- length(nameFileR)
-  nameFileR <- nameFileR[num]
-  nameFileR <- tstrsplit(nameFileR,".R")
-  nameFileR <- nameFileR[1]}
+  tryCatch({
+    nameFileR <- rstudioapi::getActiveDocumentContext()
+    nameFileR <- nameFileR[2]
+    nameFileR <- tstrsplit(nameFileR,"/")
+    num <- length(nameFileR)
+    nameFileR <- nameFileR[num]
+    nameFileR <- tstrsplit(nameFileR,".R")
+    nameFileR <- nameFileR[1]
+  },
+  error = function(cond) {
+    #message("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
+    stopApp(returnValue = invisible())
+  })
+  #nameFileR <- rstudioapi::getActiveDocumentContext()
 }
 
 

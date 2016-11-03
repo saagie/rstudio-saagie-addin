@@ -9,6 +9,7 @@ view.activate <- function() {
     shinyjs::hidden(div(id = "barUpgradeJob", view.barUpgradeJob())),
     shinyjs::hidden(div(id = "barSelectCreateJob", view.barSelectCreatePlatform())),
     shinyjs::hidden(div(id = "barCreateNewJob", view.barCreateNewJob())),
+    shinyjs::hidden(div(id = "barStateJob", view.barStateJob())),
     div(id = "barSelectPlatform", view.barSelectPlatform()),
     
     # Add the platform default in view
@@ -39,10 +40,12 @@ view.activate <- function() {
     
     # Formatting the page "Create New Job"
     shinyjs::hidden(div(id = "pageCreateNewJob", view.pageCreateNewJob())), 
+    
+    # Formatting the page "State of Job"
+    shinyjs::hidden(div(id = "pageStateJob", view.pageStateJob())), 
 
     br(), br(),
     imageOutput("heron")
-
   )
 }
 
@@ -52,7 +55,8 @@ view.allPages <- list("pageAddPlatform", "barAddPlatform",
                       "barSelectPlatform", "pageSelectPlatform",
                       "pageSelectCreateJob","barSelectCreateJob",
                       "pageCreateNewJob","barCreateNewJob",
-                      "defaultPlatform", "defaultUpgradeJob")
+                      "defaultPlatform", "defaultUpgradeJob",
+                      "pageStateJob", "barStateJob")
 
 # Hide pages
 view.hidePages <- function() {
@@ -106,6 +110,13 @@ view.showSelectPlatform <- function(){
   show("pageSelectPlatform")
 }
 
+# Show the page "Success Job Or Error Job"
+view.showStateJob <- function(){
+  view.hidePages()
+  show("barStateJob")
+  show("pageSucessOrError")
+}
+
 # Show the table containing the names of platform (in the page "Select a platform")
 view.showTablePlatform <- function(dataPlatform,output){
   dataPlatformCopy <- dataPlatform
@@ -152,7 +163,6 @@ view.pageSelectPlatform <- function(){
                   br(),
                   br(),
                   DT::dataTableOutput("table")
-                  
   ))
 }
 
@@ -172,7 +182,9 @@ view.pageUpgradeJob <- function(){
            #               tabPanel("Schedule",textInput("scheduleUpgrade",""))
            #   )
            # ),
-           actionButton("upgradeDeploy","Upgrade & deploy", icon = icon("upload", lib="font-awesome"))
+           br(),
+           actionButton("upgradeDeploy","Upgrade & deploy", icon = icon("upload", lib="font-awesome"),
+                        style='background-color:#EBECEC; color:#595B60; font-weight: bold')
     ),
     column(6,
            br(),
@@ -237,6 +249,14 @@ view.pageCreateNewJob <- function(){
   ))
 }
 
+# Details page "Success Job Or Error Job"
+view.pageStateJob <- function(){
+  fluidRow(
+    column(6,
+           "coucou")
+  )
+}
+
 #' Details of bar page "Add Platform"
 #'
 #' @return We don't know yet.
@@ -276,6 +296,12 @@ view.barSelectPlatform <- function(){
                  left = miniTitleBarCancelButton("cancel", "Close", primary=FALSE))
 }
 
+# Details of bar page "State of job"
+view.barStateJob <- function(){
+  gadgetTitleBar("State of Job",right = NULL,
+                 left = miniTitleBarCancelButton("cancelAfterUpload", "Close", primary=FALSE))
+}
+
 # Displays the choice of platform
 view.selectPlatform <- function(userGo,platformNameGo){
   cat("User : ", userGo)
@@ -294,16 +320,16 @@ view.activeSelectCreateJob <- function(userGo){
 }
 
 # Displays a message error when the user select many platform (in the page "Select a platform")
-view.multiplePlatform <- function(){
-  shinyjs::disable("createJob")
-  info("Select just one platform !")
-}
+# view.multiplePlatform <- function(){
+#   shinyjs::disable("createJob")
+#   info("Select just one platform !")
+# }
 
 # Displays a message error when the user select many job (in the page "Select or Create a platform")
-view.multipleJob <- function(){
-  shinyjs::disable("upgradeJob")
-  info("Select just one job !")
-}
+# view.multipleJob <- function(){
+#   shinyjs::disable("upgradeJob")
+#   info("Select just one job !")
+# }
 
 # Displays different fields when there is a success connection
 view.successConnection <- function(){
@@ -329,12 +355,10 @@ view.recoverNameFile <- function(){
     nameFileR <- nameFileR[1]
   },
   error = function(cond) {
-    #message("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
     stopApp(returnValue = invisible())
   })
   #nameFileR <- rstudioapi::getActiveDocumentContext()
 }
-
 
 # Displays the script who Run in a platform
 # view.script <- function(input){
@@ -413,20 +437,21 @@ view.downloadLogUpgrade <- function(){
 # }
 
 # Displays a message where is writing the file Stdout
-view.messagePathStdout <- function(){
-  print(paste("Hey I'm writing to saagie-stdout.csv in", getwd(), "/inst/file", sep=""))
-}
+# view.messagePathStdout <- function(){
+#   print(paste("Hey I'm writing to saagie-stdout.csv in", getwd(), "/inst/file", sep=""))
+# }
 
 # Displays a message where is writing the file Stderr
-view.messagePathStderr <- function(){
-  print(paste("Hey I'm writing to saagie-stderr.csv in", getwd(), "/inst/file", sep=""))
-}
+# view.messagePathStderr <- function(){
+#   print(paste("Hey I'm writing to saagie-stderr.csv in", getwd(), "/inst/file", sep=""))
+# }
 
 # Displays a message when close addin
 view.messageClose <- function(){
   message("Cancelled Saagie interaction")
 }
 
+# Displays a on-hold message 
 view.messageBarProgress <- function (){
   "Retrieving details for each job from Saagie"
 }

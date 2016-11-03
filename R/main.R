@@ -15,24 +15,11 @@
 #'
 Saagie <- function(data, xvar, yvar) {
   
-  # To be moved to somewhere global. Write/read of csv files should happen in "~/.rstudio-desktop/Saagie/"
-  # (TODO: deal with RStudio Server (which has "~/.rstudio/" instead of "~/.rstudio-desktop/"))
-  # if(!dir.exists("~/.rstudio-desktop/Saagie") dir.create("~/.rstudio-desktop/Saagie")
-  # DONE
-  
   # Displays the User Interface
   ui <- shinyUI(view.activate())
+  
+  # Interaction
   server <- function(input, output, session) {
-    
-    # # A persistent directory for the Saagie addin in the hidden ".rstudio" directory
-    # if (identical(.Platform$OS.type, "windows")) {
-    #   path_to_persistent_saagie_files <- file.path(win_path_env("local"), "RStudio-Desktop", "Saagie")
-    # } else {
-    #   # Assume we are on Linux or Mac OS
-    #   # Deal with RStudio Desktop VS RStudio Server
-    #   hiddendir <- if (rstudioapi::versionInfo()$mode == "desktop") ".rstudio-desktop" else ".rstudio"
-    #   path_to_persistent_saagie_files <- file.path("~", hiddendir, "Saagie")
-    # }
     
     # Better to use rappdirs
     path_to_persistent_saagie_files <- rappdirs::user_data_dir(appname = "rstudio-saagie-addin", appauthor = "Saagie")
@@ -42,8 +29,10 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the table containing the name of the platform and the names of users
     dataPlatform <- model.readTablePlatform(path_to_persistent_saagie_files)
     view.showTablePlatform(dataPlatform,output)
+    
     # Displays the page "Add a platform"
     observeEvent(input$addPlatform, view.showAddPlatform())
+    
     # Displays the page "Select a platform" and update the table
     observeEvent(input$addSelectPlatform, {
       model.updateTablePlatform(path_to_persistent_saagie_files, input)
@@ -51,18 +40,20 @@ Saagie <- function(data, xvar, yvar) {
       view.showTablePlatform(dataPlatform,output)
       view.showSelectPlatform()
     })
+    
     # Displays the page "Upgrade a job"
     observeEvent(input$upgradeJob, view.showUpgrade())
+    
     # Control if the fields are not empty in the page "Add Platform"
     # observe(validator.infoPlatform(path_to_persistent_saagie_files, input))
     observeEvent(input$testConnection, validator.testConnection(path_to_persistent_saagie_files, input))
+    
     # Control if the fields "mail" is correct
     observe(validator.mail(input))
+    
     # Displays the page "Select or create a new job"
     observeEvent(input$createJob, { # | input$refresh | input$previousUpgradeJob | input$previousBarCreateNewJob, {
-      if (
-        # nrow(model.readThePlatform(path_to_persistent_saagie_files)) == 0 &&
-        nrow(model.readTablePlatform(path_to_persistent_saagie_files)) == 0) {
+      if (nrow(model.readTablePlatform(path_to_persistent_saagie_files)) == 0) {
         info("Add at least one platform")
       } else {
         # withProgress({
@@ -82,12 +73,16 @@ Saagie <- function(data, xvar, yvar) {
         view.showSelectCreateJob()
       }
     })
+    
     # Displays the page "Create a new job"
     observeEvent(input$createNewJob, view.showCreateNewJob())
+    
     # Control if the field "Job Name" isn't empty in the page "Create a New Job"
     observe(validator.infoJob(input))
+    
     # Displays the previous page ("Add Platform" -> "Select Platform")
     observeEvent(input$previousAddPlatform,view.showSelectPlatform())
+    
     # Factorized with input$createJob ??
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
     # observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
@@ -103,8 +98,10 @@ Saagie <- function(data, xvar, yvar) {
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
+    
     # Displays the previous page ("Select or create job" -> "Select Platform")
     observeEvent(input$previousSelectCreateJob,view.showSelectPlatform())
+    
     # Factorized with input$createJob ??
     # Displays the previous page ("Create New Job" -> "Select or Create a new Job")
     # observeEvent(input$previousBarCreateNewJob, view.showSelectCreateJob())
@@ -120,6 +117,7 @@ Saagie <- function(data, xvar, yvar) {
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
+    
     # Choice of the platform and Add the platform in file containing the platform
     output$rowSelectPlatform = renderPrint({
       nb_row = input$table_rows_selected
@@ -135,18 +133,22 @@ Saagie <- function(data, xvar, yvar) {
                                      infoPlatform[['UserGo']],infoPlatform[['PlatformNameGo']],infoPlatform[['Mdp']],
                                      infoPlatform[['AdressPlatform']],infoPlatform[['NumPlatform']])
         }
-      }else{
-        view.multiplePlatform()
       }
+      # else{
+      #   view.multiplePlatform()
+      # }
     })
+    
     # Reactive the file containing the name of platform
     searchResult <- reactive({
       model.readNamePlatform(path_to_persistent_saagie_files)
     })
+    
     # Select the Platform
     output$selectPlatformName <- renderUI({
       selectInput("platformName", "Platform Name", searchResult()[,2])
     })
+    
     # Select the job who upgrade
     output$rowSelectJob = renderPrint({
       nb_row = input$newJob_rows_selected
@@ -158,9 +160,10 @@ Saagie <- function(data, xvar, yvar) {
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         nameJob <- jobs[nb_row,4]
         view.nameJobUpgrade(nameJob)
-      }else{
-        view.multipleJob()
       }
+      # else{
+      #   view.multipleJob()
+      # }
     })
 
     tryCatch({
@@ -196,15 +199,19 @@ Saagie <- function(data, xvar, yvar) {
     # })
     
     # Reactive the previous of Script R
-    observeEvent(input$viewDocument,{view.script(input)})
+    # observeEvent(input$viewDocument,{view.script(input)})
+    
     # Reactive the previous of Script R (Upgrade)
-    observeEvent(input$viewDocumentUpgrade, {view.scriptUpgrade(input)})
-    # Add a job in the platform Saagie
+    # observeEvent(input$viewDocumentUpgrade, {view.scriptUpgrade(input)})
+    
+    # Add a job in the platform Saagie 
+    # And show the page "State of job"
     observeEvent(input$addDeploy,{
       document <- reactiveDocument()
       nameFile <- view.recoverNameFile()
       pathNameFile <- model.writeFile(document,nameFile)
       info <- model.postJob(path_to_persistent_saagie_files, input, pathNameFile)
+      view.showStateJob()
       # observeEvent(input$runAddDeploy,{
       #   idJobPlatform <- model.runJob(info[['ThePlatform']],info[['ReponseAdd']])
       #   view.BarProgress()
@@ -222,7 +229,9 @@ Saagie <- function(data, xvar, yvar) {
       #   })
       # })
     })
+    
     # Upgrade the Job
+    # And show the page "State of job"
     observeEvent(input$upgradeDeploy,{
       document <- reactiveDocument()
       nameFile <- view.recoverNameFile()
@@ -233,6 +242,7 @@ Saagie <- function(data, xvar, yvar) {
       idJob <- jobs[value,1]
       nameJob <- jobs[value,4]
       thePlatform <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
+      view.showStateJob()
       # view.BarProgress()
       # log <- model.showLog(thePlatform,idJob)
       # view.downloadLogUpgrade()
@@ -249,6 +259,7 @@ Saagie <- function(data, xvar, yvar) {
       #   view.messagePathStderr()
       # })
     })
+    
     # Factorized with input$createJob ??
     # Refresh a page "Select or Create new Job"
     observeEvent(input$refresh, {
@@ -263,6 +274,7 @@ Saagie <- function(data, xvar, yvar) {
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
     })
+    
     # Three functions for formate the document who containing the R Script
     injectHighlightHandler <- function() {
       code <- "
@@ -292,6 +304,7 @@ Saagie <- function(data, xvar, yvar) {
       code <- HTML(as.character(tags$code(class = "language-r", ...)))
       div(pre(code))
     }
+    
     # Displays Image Saagie
     output$heron <- renderImage({
       # What is input$n ???
@@ -305,11 +318,15 @@ Saagie <- function(data, xvar, yvar) {
     observeEvent(input$cancel, {
       stopApp()
     })
+    
+    observeEvent(input$cancelAfterUpload, {
+      stopApp()
+    })
+    
     # Deal with closing the add-in with the 'x' box instead of the 'Cancel' button
     session$onSessionEnded(function() {
       stopApp(view.messageClose())
     })
-    
     
 }
   

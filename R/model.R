@@ -118,6 +118,7 @@ model.JobRPlatform <- function(path){
 model.postJob <- function(path, input, pathNameFile){
   thePlatform <- model.readThePlatform(path)
   fileName <- model.uploadFile(thePlatform, pathNameFile)
+  print(paste("File NAME : ", fileName))
   reponseAdd <- model.uploadJob(input,thePlatform,fileName)
   return(list(ThePlatform = thePlatform, ReponseAdd = reponseAdd))
 }
@@ -149,10 +150,15 @@ model.uploadJob <- function(input,thePlatform,fileName){
 #' @importFrom httr POST
 #'
 model.runJob <- function(thePlatform,reponseAdd){
-  addDeployName <- content(reponseAdd,type="application/json")
-  idJobPlatform <- addDeployName[[1]]
+  idJobPlatform <- model.idJobPlatform(reponseAdd)
   urlRunJob <- paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJobPlatform,"/run",sep="")
   req_ <-POST(urlRunJob,authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
+  return(idJobPlatform)
+}
+
+model.idJobPlatform <- function(reponseAdd){
+  addDeployName <- content(reponseAdd,type="application/json")
+  idJobPlatform <- addDeployName[[1]]
   return(idJobPlatform)
 }
 

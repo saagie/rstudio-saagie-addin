@@ -114,7 +114,7 @@ view.showSelectPlatform <- function(){
 view.showStateJob <- function(){
   view.hidePages()
   show("barStateJob")
-  show("pageSucessOrError")
+  show("pageStateJob")
 }
 
 # Show the table containing the names of platform (in the page "Select a platform")
@@ -253,7 +253,8 @@ view.pageCreateNewJob <- function(){
 view.pageStateJob <- function(){
   fluidRow(
     column(6,
-           "coucou")
+           actionButton("backJobList","Back to job list",
+                        style='background-color:#EBECEC; color:#595B60; font-weight: bold'))
   )
 }
 

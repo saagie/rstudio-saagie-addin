@@ -83,6 +83,17 @@ Saagie <- function(data, xvar, yvar) {
     # Displays the previous page ("Add Platform" -> "Select Platform")
     observeEvent(input$previousAddPlatform,view.showSelectPlatform())
     
+    # Displays the page "Select or Create Job" when click into button "Back to job"
+    observeEvent(input$backJobList, {
+      model.JobRPlatform(path_to_persistent_saagie_files)
+      jobs <- model.readTableJob(path_to_persistent_saagie_files)
+      thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
+      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.removeLinkedNoR(jobs)
+      view.showTableJob(jobs,output)
+      view.showSelectCreateJob()
+    })    
+    
     # Factorized with input$createJob ??
     # Displays the previous page ("Upgrade Job" -> "Select Platform")
     # observeEvent(input$previousUpgradeJob, view.showSelectCreateJob())
@@ -159,6 +170,7 @@ Saagie <- function(data, xvar, yvar) {
         write.csv(nb_row, file = file.path(path_to_persistent_saagie_files, "platform", "row.csv"), row.names = FALSE)
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         nameJob <- jobs[nb_row,4]
+        #print(jobs)
         view.nameJobUpgrade(nameJob)
       }
       # else{
@@ -212,6 +224,13 @@ Saagie <- function(data, xvar, yvar) {
       pathNameFile <- model.writeFile(document,nameFile)
       info <- model.postJob(path_to_persistent_saagie_files, input, pathNameFile)
       view.showStateJob()
+      if((info$ReponseAdd[2]) == 200){
+        print("Success !")
+        idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
+        print(paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, "/versions", sep=""))
+      }else{
+        print("Error")
+      }
       # observeEvent(input$runAddDeploy,{
       #   idJobPlatform <- model.runJob(info[['ThePlatform']],info[['ReponseAdd']])
       #   view.BarProgress()

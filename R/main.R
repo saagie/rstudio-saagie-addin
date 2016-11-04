@@ -223,14 +223,19 @@ Saagie <- function(data, xvar, yvar) {
       nameFile <- view.recoverNameFile()
       pathNameFile <- model.writeFile(document,nameFile)
       info <- model.postJob(path_to_persistent_saagie_files, input, pathNameFile)
+      print(info$ResponseAdd)
       view.showStateJob()
+      idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
+      urlDetailTab <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, sep="")
       if((info$ReponseAdd[2]) == 200){
-        print("Success !")
-        idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
-        print(paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, "/versions", sep=""))
+        view.successAddJob()
       }else{
-        print("Error")
+        view.errorAddJob()
       }
+      output$linkDetailTab <- renderUI({
+        tags$a("Go to Job", href=urlDetailTab, target="_blank")
+      })
+      
       # observeEvent(input$runAddDeploy,{
       #   idJobPlatform <- model.runJob(info[['ThePlatform']],info[['ReponseAdd']])
       #   view.BarProgress()
@@ -249,6 +254,7 @@ Saagie <- function(data, xvar, yvar) {
       # })
     })
     
+    
     # Upgrade the Job
     # And show the page "State of job"
     observeEvent(input$upgradeDeploy,{
@@ -262,6 +268,19 @@ Saagie <- function(data, xvar, yvar) {
       nameJob <- jobs[value,4]
       thePlatform <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
       view.showStateJob()
+      
+      # A modifier
+      # idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
+      # urlDetailVersion <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, "/versions", sep="")
+      # if((info$ReponseAdd[2]) == 200){
+      #   view.successUpgradeJob()
+      # }else{
+      #   view.errorUpgradeJob()
+      # }
+      # output$linkDetailVersion <- renderUI({
+      #  tags$a("Go to Job", href=urlDetailVersion, target="_blank")
+      # })
+      
       # view.BarProgress()
       # log <- model.showLog(thePlatform,idJob)
       # view.downloadLogUpgrade()
@@ -353,4 +372,5 @@ Saagie <- function(data, xvar, yvar) {
   # error (stopApp(stop("User cancel", call. = FALSE))) when the Cancel button is clicked
   # TODO: Maybe find a better way to handle this error (current solution : replace the default with stopApp(message()))
   runGadget(ui, server, viewer = dialogViewer("Saagie"), stopOnCancel = FALSE)
+  # runGadget(ui, server, viewer = browseURL("shiny.rstudio.com/tutorial", browser = getOption("browser")), stopOnCancel = FALSE)
 }

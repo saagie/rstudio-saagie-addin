@@ -253,6 +253,18 @@ view.pageCreateNewJob <- function(){
 view.pageStateJob <- function(){
   fluidRow(
     column(6,
+           shinyjs::hidden(div(id = "successAddJob", "Successfully deployed")),
+           shinyjs::hidden(div(id = "errorAddJob", "Failed deployed")),
+           # A modifier
+           shinyjs::hidden(div(id = "descriptionErrorAdd", htmlOutput("descriptionErrorAddJob"))),
+           shinyjs::hidden(div(id = "successUpgradeJob", "Upgrade successful")),
+           shinyjs::hidden(div(id = "errorUpgradeJob", "Upgrade failed")),
+           # A modifier
+           shinyjs::hidden(div(id = "descriptionErrorUpgrade", htmlOutput("descriptionErrorUpgradeJob"))),
+           br(),
+           shinyjs::hidden(div(id = "detailTab",htmlOutput('linkDetailTab'))),
+           shinyjs::hidden(div(id = "detailVersion",htmlOutput('linkDetailVersion'))),
+           br(),
            actionButton("backJobList","Back to job list",
                         style='background-color:#EBECEC; color:#595B60; font-weight: bold'))
   )
@@ -455,4 +467,26 @@ view.messageClose <- function(){
 # Displays a on-hold message 
 view.messageBarProgress <- function (){
   "Retrieving details for each job from Saagie"
+}
+
+view.successAddJob <- function(){
+  show("successAddJob")
+  show("detailTab")
+}
+
+view.errorAddJob <- function(){
+  show("errorAddJob")
+  show("descriptionErrorAdd")
+  show("detailTab")
+}
+
+view.successUpgradeJob <- function(){
+  show("successUpgradeJob")
+  show("detailVersion")
+}
+
+view.errorUpgradeJob <- function(){
+  show("errorUpgradeJob")
+  show("descriptionErrorUpgrade")
+  show("detailVersion")
 }

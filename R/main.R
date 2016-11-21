@@ -223,7 +223,6 @@ Saagie <- function(data, xvar, yvar) {
       nameFile <- view.recoverNameFile()
       pathNameFile <- model.writeFile(document,nameFile)
       info <- model.postJob(path_to_persistent_saagie_files, input, pathNameFile)
-      print(info$ResponseAdd)
       view.showStateJob()
       idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
       urlDetailTab <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, sep="")
@@ -234,6 +233,9 @@ Saagie <- function(data, xvar, yvar) {
       }
       output$linkDetailTab <- renderUI({
         tags$a("Go to Job", href=urlDetailTab, target="_blank")
+      })
+      output$descriptionErrorAddJob <- renderUI({
+        paste("Status : ", info$ReponseAdd[2])
       })
       
       # observeEvent(input$runAddDeploy,{
@@ -266,20 +268,20 @@ Saagie <- function(data, xvar, yvar) {
       value <- test[1,1]
       idJob <- jobs[value,1]
       nameJob <- jobs[value,4]
-      thePlatform <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
+      info <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
       view.showStateJob()
-      
-      # A modifier
-      # idJobPlatform <- model.idJobPlatform(info[['ReponseAdd']])
-      # urlDetailVersion <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJobPlatform, "/versions", sep="")
-      # if((info$ReponseAdd[2]) == 200){
-      #   view.successUpgradeJob()
-      # }else{
-      #   view.errorUpgradeJob()
-      # }
-      # output$linkDetailVersion <- renderUI({
-      #  tags$a("Go to Job", href=urlDetailVersion, target="_blank")
-      # })
+      urlDetailVersion <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJob, "/versions", sep="")
+      if((info$ReponseAdd[2]) == 200){
+         view.successUpgradeJob()
+      }else{
+         view.errorUpgradeJob()
+      }
+      output$linkDetailVersion <- renderUI({
+        tags$a("Go to Job", href=urlDetailVersion, target="_blank")
+      })
+      output$descriptionErrorUpgradeJob <- renderUI({
+        paste("Status : ", info$ReponseAdd[2])
+      })
       
       # view.BarProgress()
       # log <- model.showLog(thePlatform,idJob)

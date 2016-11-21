@@ -132,6 +132,10 @@ view.showTablePlatform <- function(dataPlatform,output){
 # Show the table containing the names of Job (in page "Select or Create New Job")
 view.showTableJob <- function(jobs,output){
   names(jobs) <-  c("Category", "Current Version","Linked R Script","Job Name")
+  for(i in 1:nrow(jobs)) 
+     jobs[i,5] <- nrow(jobs)-i
+  jobs <- jobs[order(jobs[,5],decreasing=F), ]
+  jobs <- jobs[-5]
   output$newJob <- DT::renderDataTable(DT::datatable(
     jobs,options=list(searching=FALSE, paging=FALSE, info=FALSE),
     selection = list(mode = "single", selected = 1, target = "row")
@@ -253,15 +257,14 @@ view.pageCreateNewJob <- function(){
 view.pageStateJob <- function(){
   fluidRow(
     column(6,
-           shinyjs::hidden(div(id = "successAddJob", "Successfully deployed")),
-           shinyjs::hidden(div(id = "errorAddJob", "Failed deployed")),
-           # A modifier
-           shinyjs::hidden(div(id = "descriptionErrorAdd", htmlOutput("descriptionErrorAddJob"))),
+           shinyjs::hidden(div(id = "successStateAddJob", "Successfully deployed")),
+           shinyjs::hidden(div(id = "errorStateAddJob", "Failed deployed")),
            shinyjs::hidden(div(id = "successUpgradeJob", "Upgrade successful")),
            shinyjs::hidden(div(id = "errorUpgradeJob", "Upgrade failed")),
-           # A modifier
-           shinyjs::hidden(div(id = "descriptionErrorUpgrade", htmlOutput("descriptionErrorUpgradeJob"))),
            br(),
+           # A modifier
+           shinyjs::hidden(div(id = "descriptionErrorAdd", htmlOutput("descriptionErrorAddJob"))),
+           shinyjs::hidden(div(id = "descriptionErrorUpgrade", htmlOutput("descriptionErrorUpgradeJob"))),
            shinyjs::hidden(div(id = "detailTab",htmlOutput('linkDetailTab'))),
            shinyjs::hidden(div(id = "detailVersion",htmlOutput('linkDetailVersion'))),
            br(),
@@ -470,14 +473,13 @@ view.messageBarProgress <- function (){
 }
 
 view.successAddJob <- function(){
-  show("successAddJob")
+  show("successStateAddJob")
   show("detailTab")
 }
 
 view.errorAddJob <- function(){
-  show("errorAddJob")
+  show("errorStateAddJob")
   show("descriptionErrorAdd")
-  show("detailTab")
 }
 
 view.successUpgradeJob <- function(){
@@ -488,5 +490,4 @@ view.successUpgradeJob <- function(){
 view.errorUpgradeJob <- function(){
   show("errorUpgradeJob")
   show("descriptionErrorUpgrade")
-  show("detailVersion")
 }

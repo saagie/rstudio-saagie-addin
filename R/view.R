@@ -262,7 +262,6 @@ view.pageStateJob <- function(){
            shinyjs::hidden(div(id = "successUpgradeJob", "Upgrade successful")),
            shinyjs::hidden(div(id = "errorUpgradeJob", "Upgrade failed")),
            br(),
-           # A modifier
            shinyjs::hidden(div(id = "descriptionErrorAdd", htmlOutput("descriptionErrorAddJob"))),
            shinyjs::hidden(div(id = "descriptionErrorUpgrade", htmlOutput("descriptionErrorUpgradeJob"))),
            shinyjs::hidden(div(id = "detailTab",htmlOutput('linkDetailTab'))),
@@ -472,22 +471,42 @@ view.messageBarProgress <- function (){
   "Retrieving details for each job from Saagie"
 }
 
+# List element of page "State Job"
+view.allPageState <- list("successStateAddJob","detailTab",
+                          "errorStateAddJob","descriptionErrorAdd",
+                          "successUpgradeJob","detailVersion",
+                          "errorUpgradeJob", "descriptionErrorUpgrade")
+
+# Hide element of Page "State Job"
+view.hidePageState <- function() {
+  for (page in view.allPageState) {
+    shinyjs::hide(page)
+  }
+}
+
+# Displays Success Job
 view.successAddJob <- function(){
+  view.hidePageState()
   show("successStateAddJob")
   show("detailTab")
 }
-
+# Displays Error Job
 view.errorAddJob <- function(){
+  view.hidePageState()
   show("errorStateAddJob")
   show("descriptionErrorAdd")
 }
 
+# Displays Success Upgrade Job
 view.successUpgradeJob <- function(){
+  view.hidePageState()
   show("successUpgradeJob")
   show("detailVersion")
 }
 
+# Displays Error Upgrade Job
 view.errorUpgradeJob <- function(){
+  view.hidePageState()
   show("errorUpgradeJob")
   show("descriptionErrorUpgrade")
 }

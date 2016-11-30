@@ -178,28 +178,21 @@ Saagie <- function(data, xvar, yvar) {
       # }
     })
 
-    tryCatch({
-      context <- rstudioapi::getSourceEditorContext()
-    },
+    tryCatch(
+      expr = {
+        context <- rstudioapi::getSourceEditorContext()
+      },
       error = function(cond) {
-      info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
-      stopApp(cond)
-    })
-    
-    tryCatch({
-      context <- rstudioapi::getActiveDocumentContext()
-      j <- 0
-      script <- data.frame(context[3])
-      for(i in 1:nrow(script)){
-        if(script[i,] == ""){
-          j <- j+1
-        }
-      }
-      if(nrow(script)==j){
         info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
-        stopApp(returnValue = invisible())
+        stopApp(cond)
       }
-    })
+    )
+    
+    # if (max(vapply(X = context$contents, FUN = nchar, FUN.VALUE = integer(1), USE.NAMES = FALSE)) == 0L) {
+    if (all(context$contents == "")) {
+      info("Cannot upload empty script.")
+      stopApp()
+    }
     
     # Formate the document who containing the R Script
     reactiveDocument <- reactive({

@@ -2,8 +2,6 @@
   
 RStudio addin to interact with the [Saagie Platform](https://www.saagie.com/).  
 Develop R jobs, upload them, schedule them, run them, retrieve logs -- all from within [RStudio](https://www.rstudio.com/)
-Version R Studio >= 1.0
-Version R >= 3.2.3
 
 ## Installation
 

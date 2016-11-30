@@ -1,3 +1,6 @@
+---
+output: html_document
+---
 # RStudio addin for Saagie
   
 RStudio addin to interact with the [Saagie Platform](https://www.saagie.com/).  
@@ -12,8 +15,6 @@ From **R**:
 # install.packages("devtools")
 devtools::install_github("saagie/rstudio-saagie-addin")
 ```
-* (Hopefully soon on CRAN):  
-[...]  
 
 ## Usage
 
@@ -23,3 +24,4 @@ Click "Add to platform Saagie"
 
 ## Informations
 
+Version R Studio >= 0.99.796, Version R >= 3.2.3

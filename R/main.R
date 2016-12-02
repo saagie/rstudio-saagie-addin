@@ -178,13 +178,14 @@ Saagie <- function(data, xvar, yvar) {
       # }
     })
 
-    tryCatch(
+    context <- tryCatch(
       expr = {
-        context <- rstudioapi::getSourceEditorContext()
+        rstudioapi::getSourceEditorContext()
       },
       error = function(cond) {
         info("A script should be open in the RStudio Source Editor before uploading it to Saagie.")
         stopApp(cond)
+        invisible(NULL)
       }
     )
     

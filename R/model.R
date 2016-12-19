@@ -42,7 +42,7 @@ model.readNamePlatform <- function(path){
   if (file.exists(file)) {
     res <- read.csv(file = file, sep=",", stringsAsFactors = FALSE)
   } else {
-    res <- data.frame("id" = integer(0), "Names" = character(0))
+    res <- data.frame("id" = integer(0), "Names" = character(0), stringsAsFactors = FALSE)
     write.csv(res, file = file, row.names = FALSE)
   }
   res

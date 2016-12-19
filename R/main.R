@@ -65,9 +65,9 @@ Saagie <- function(data, xvar, yvar) {
         # Read 'current' platform from local file
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
         # Loop over jobs to get their details. One API request per job
-        jobs <- model.currentVersion(jobs,thePlatform)
+        jobs <- model.currentVersion(path_to_persistent_saagie_files,jobs,thePlatform)
         # Loop over jobs to classify them according to file name extensions etc
-        # jobs <- model.removeLinkedNoR(jobs)
+        jobs <- model.removeLinkedNoR(jobs)
         # }, message = "Retrieving list of R jobs from Saagie")
         view.showTableJob(jobs,output)
         view.showSelectCreateJob()
@@ -88,7 +88,7 @@ Saagie <- function(data, xvar, yvar) {
       model.JobRPlatform(path_to_persistent_saagie_files)
       jobs <- model.readTableJob(path_to_persistent_saagie_files)
       thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.currentVersion(path_to_persistent_saagie_files,jobs,thePlatform)
       jobs <- model.removeLinkedNoR(jobs)
       view.showTableJob(jobs,output)
       view.showSelectCreateJob()
@@ -103,7 +103,7 @@ Saagie <- function(data, xvar, yvar) {
       model.JobRPlatform(path_to_persistent_saagie_files)
       jobs <- model.readTableJob(path_to_persistent_saagie_files)
       thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.currentVersion(path_to_persistent_saagie_files,jobs,thePlatform)
       jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
@@ -122,7 +122,7 @@ Saagie <- function(data, xvar, yvar) {
       model.JobRPlatform(path_to_persistent_saagie_files)
       jobs <- model.readTableJob(path_to_persistent_saagie_files)
       thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.currentVersion(path_to_persistent_saagie_files,jobs,thePlatform)
       jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)
@@ -169,13 +169,14 @@ Saagie <- function(data, xvar, yvar) {
         shinyjs::enable("upgradeJob")
         write.csv(nb_row, file = file.path(path_to_persistent_saagie_files, "platform", "row.csv"), row.names = FALSE)
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
-        nameJob <- jobs[nb_row,4]
+        nameJob <- jobs[nb_row,"nameJob"]
         #print(jobs)
         view.nameJobUpgrade(nameJob)
       }
       # else{
       #   view.multipleJob()
       # }
+
     })
 
     context <- tryCatch(
@@ -275,9 +276,9 @@ Saagie <- function(data, xvar, yvar) {
       test <- model.readNumJob(path_to_persistent_saagie_files)
       jobs <- model.readTableJob(path_to_persistent_saagie_files)
       value <- test[1,1]
-      idJob <- jobs[value,1]
-      nameJob <- jobs[value,4]
-      info <- model.upgradeJob(path_to_persistent_saagie_files, input,idJob,pathNameFile)
+      idJob <- jobs[value,"idJob"]
+      nameJob <- jobs[value,"nameJob"]
+      info <- model.upgradeJob(path_to_persistent_saagie_files,input,idJob,pathNameFile)
       view.showStateJob()
       urlDetailVersion <- paste(info$ThePlatform[4],"/#/manager/", info$ThePlatform[5], "/job/", idJob, "/versions", sep="")
       if((info$ReponseAdd[2]) == 200){
@@ -317,7 +318,7 @@ Saagie <- function(data, xvar, yvar) {
       model.JobRPlatform(path_to_persistent_saagie_files)
       jobs <- model.readTableJob(path_to_persistent_saagie_files)
       thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-      jobs <- model.currentVersion(jobs,thePlatform)
+      jobs <- model.currentVersion(path_to_persistent_saagie_files,jobs,thePlatform)
       jobs <- model.removeLinkedNoR(jobs)
       # }, message = "Retrieving list of jobs from Saagie")
       view.showTableJob(jobs,output)

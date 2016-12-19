@@ -362,7 +362,7 @@ view.errorConnection <- function(){
 view.recoverNameFile <- function(){
   tryCatch({
     nameFileR <- rstudioapi::getActiveDocumentContext()
-    nameFileR <- nameFileR[2]
+    nameFileR <- nameFileR$path
     nameFileR <- tstrsplit(nameFileR,"/")
     num <- length(nameFileR)
     nameFileR <- nameFileR[num]

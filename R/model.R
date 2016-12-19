@@ -242,8 +242,8 @@ model.recoverNamePlatform <- function(path, input){
 }
 
 # Upgrade a job in the platform Saagie
-model.upgradeJob <- function(path, input,idJob,pathNameFile){
-  thePlatform <- model.readThePlatform(path)
+model.upgradeJob <- function(path_to_persistent_saagie_files, input,idJob,pathNameFile){
+  thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
   model.infoJobUpgrade(thePlatform,idJob)
   fileName <- model.uploadFile(thePlatform,pathNameFile)
   version <- model.newVersion(input,thePlatform,idJob,fileName)
@@ -280,8 +280,8 @@ model.postUpgrade <- function(thePlatform,idJob,fileName){
                 schedule = "R0/2016-05-30T10:27:49.635Z/P0Y0M1DT0H0M0S", email="char"), encode="json")
 }
 
-# Return a current version of job R
-model.currentVersion <- function(jobs,thePlatform){
+# Return a current version, name job and name script of job R
+model.currentVersion <- function(path,jobs,thePlatform){
   withProgress({
     for (i in seq_len(nrow(jobs))) {
       response <- GET(paste0(thePlatform[1, 4], "/api/v1/platform/", thePlatform[1, 5], "/job/", jobs[i,1]),
@@ -295,6 +295,8 @@ model.currentVersion <- function(jobs,thePlatform){
       jobs[i, "nameJob"] <- detailsJob$name
     }
   }, message = view.messageBarProgress())
+  jobs <- jobs[order(jobs[,1],decreasing = T),]
+  write.csv(jobs,file = file.path(path, "platform", "job.csv"), row.names = FALSE)
   #jobs <- jobs[, -1:-3]
   #print(jobs[i, 6])
   return(jobs)

@@ -131,11 +131,10 @@ view.showTablePlatform <- function(dataPlatform,output){
 
 # Show the table containing the names of Job (in page "Select or Create New Job")
 view.showTableJob <- function(jobs,output){
-  # names(jobs) <-  c("Category", "Current Version","Linked R Script","Job Name")
-  #for(i in 1:nrow(jobs)) 
-     #jobs[i,8] <- nrow(jobs)-i
-  #jobs <- jobs[order(jobs[,5],decreasing=F), ]
-  #jobs <- jobs[-5]
+  jobs <- jobs[,!colnames(jobs)=="idJob"]
+  jobs <- jobs[,!colnames(jobs)=="idPlatform"]
+  jobs <- jobs[,!colnames(jobs)=="capsule"]
+  names(jobs) <-  c("Category", "Current Version","Linked R Script","Job Name")
   output$newJob <- DT::renderDataTable(DT::datatable(
     jobs[order(jobs[,1],decreasing = T),],options=list(searching=FALSE, paging=FALSE, info=FALSE),
     selection = list(mode = "single", selected = 1, target = "row")

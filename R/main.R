@@ -64,10 +64,10 @@ Saagie <- function(data, xvar, yvar) {
         jobs <- model.readTableJob(path_to_persistent_saagie_files)
         # Read 'current' platform from local file
         thePlatform <- model.readThePlatform(path_to_persistent_saagie_files)
-        # Loop over jobs to get their details. One API request per job!
+        # Loop over jobs to get their details. One API request per job
         jobs <- model.currentVersion(jobs,thePlatform)
         # Loop over jobs to classify them according to file name extensions etc
-        jobs <- model.removeLinkedNoR(jobs)
+        # jobs <- model.removeLinkedNoR(jobs)
         # }, message = "Retrieving list of R jobs from Saagie")
         view.showTableJob(jobs,output)
         view.showSelectCreateJob()

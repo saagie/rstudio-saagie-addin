@@ -17,7 +17,8 @@ model.readTableJob <- function(path){
   if (file.exists(file)) {
     res <- read.csv(file = file, sep=",", stringsAsFactors = FALSE)
   } else {
-    res <- data.frame("idJob" = integer(0), "R" = character(0), "Category" = character(0), "Script" = character(0), stringsAsFactors = FALSE)
+    res <- data.frame("idJob" = integer(0), "idPlatform" = character(0), "capsule" = character(0), "category" = character(0),
+                      "numVersion" = integer(0), "nameScript" = character(0), "nameJob" = character(0), stringsAsFactors = FALSE)
     write.csv(res, file = file, row.names = FALSE)
   }
   res
@@ -286,12 +287,15 @@ model.currentVersion <- function(jobs,thePlatform){
       response <- GET(paste0(thePlatform[1, 4], "/api/v1/platform/", thePlatform[1, 5], "/job/", jobs[i,1]),
                       authenticate(thePlatform[1, 1], base64Decode(thePlatform[1, 3]), type = "basic"))
       detailsJob <- content(response, type = "application/json")
-      jobs[i, 5] <- detailsJob[[3]][[3]]
-      jobs[i, 6] <- detailsJob[[3]][[5]]
-      jobs[i, 7] <- detailsJob[[7]]
+      # jobs[i, 5] <- detailsJob[[3]][[3]]
+      jobs[i, "numVersion"] <- detailsJob[["current"]][["number"]]
+      # jobs[i, 6] <- detailsJob[[3]][[5]]
+      jobs[i, "nameScript"] <- detailsJob[["current"]][["file"]]
+      # jobs[i, 7] <- detailsJob[[7]]
+      jobs[i, "nameJob"] <- detailsJob$name
     }
   }, message = view.messageBarProgress())
-  jobs <- jobs[, -1:-3]
+  #jobs <- jobs[, -1:-3]
   #print(jobs[i, 6])
   return(jobs)
 }

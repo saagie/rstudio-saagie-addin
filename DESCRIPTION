@@ -1,7 +1,7 @@
 Package: Saagie
 Type: Package
 Title: RStudio Addin to Interact with the Saagie Platform, Upload and Run R Jobs
-Version: 0.1.0
+Version: 1.0
 Depends:
     R (>= 3.2.3)
 Imports:

@@ -111,7 +111,7 @@ model.JobRPlatform <- function(path){
       listJob[j, "idJob"] <- job[[i]]["id"]
       listJob[j, "idPlatform"] <- dataPlatform[1,5]
       listJob[j, "capsule"] <- job[[i]]["capsule_code"]
-      listJob[j, "category"] <- job[[18]]["category"]
+      listJob[j, "category"] <- job[[i]]["category"]
       j = j+1
     }
   }

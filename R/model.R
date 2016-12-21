@@ -108,7 +108,10 @@ model.JobRPlatform <- function(path){
   listJob <- model.readTableJob(path)
   for(i in seq_along(job)){
     if(job[[i]]["capsule_code"]=="r"){
-      listJob[j, 1:4] <- job[[i]][1:4]
+      listJob[j, "idJob"] <- job[[i]]["id"]
+      listJob[j, "idPlatform"] <- dataPlatform[1,5]
+      listJob[j, "capsule"] <- job[[i]]["capsule_code"]
+      listJob[j, "category"] <- job[[18]]["category"]
       j = j+1
     }
   }

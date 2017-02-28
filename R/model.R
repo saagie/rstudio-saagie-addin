@@ -96,6 +96,7 @@ model.readNumJob <- function(path){
 #' @param input Bouton when you add a new platform : input$addSelectPlatform
 #'
 #' @importFrom RCurl base64Encode
+#' @export
 model.updateTablePlatform <- function(path, input){
   dataPlatform <- model.readTablePlatform(path)
   if(input$addPlatform){

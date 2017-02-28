@@ -2,14 +2,17 @@
 % Please edit documentation in R/model.R
 \name{model.readTableJob}
 \alias{model.readTableJob}
-\title{Title}
+\title{Read a file containing job R or Create File}
 \usage{
 model.readTableJob(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path where is a file "job.csv"}
+}
+\value{
+res is a file contening the list of job
 }
 \description{
-Title
+Read a file containing job R or Create File
 }
 

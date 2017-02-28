@@ -1,4 +1,4 @@
-#' Read a file where there are the different Platform name
+#' Read a file where there are the different Platform name or Create File
 #'
 #' @param path path where is a file "platform.csv"
 #'
@@ -17,15 +17,12 @@ model.readTablePlatform <- function(path){
   res
 }
 
-# Read a file containing job R
-#' Title
+#' Read a file containing job R or Create File
 #'
-#' @param path 
+#' @param path path where is a file "job.csv"
 #'
-#' @return
+#' @return res is a file contening the list of job
 #' @export
-#'
-#' @examples
 model.readTableJob <- function(path){
   file <- file.path(path, "platform", "job.csv")
   if (file.exists(file)) {

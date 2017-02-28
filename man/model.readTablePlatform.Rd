@@ -2,7 +2,7 @@
 % Please edit documentation in R/model.R
 \name{model.readTablePlatform}
 \alias{model.readTablePlatform}
-\title{Read a file where there are the different Platform name}
+\title{Read a file where there are the different Platform name or Create File}
 \usage{
 model.readTablePlatform(path)
 }
@@ -13,6 +13,6 @@ model.readTablePlatform(path)
 res is a file contening the list of platform
 }
 \description{
-Read a file where there are the different Platform name
+Read a file where there are the different Platform name or Create File
 }
 

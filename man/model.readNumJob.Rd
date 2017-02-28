@@ -2,14 +2,17 @@
 % Please edit documentation in R/model.R
 \name{model.readNumJob}
 \alias{model.readNumJob}
-\title{Title}
+\title{Read a file containing the num where upgrade the job}
 \usage{
 model.readNumJob(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path where is a file "row.csv"}
+}
+\value{
+res is a file containing the num where upgrade the job
 }
 \description{
-Title
+Read a file containing the num where upgrade the job
 }
 

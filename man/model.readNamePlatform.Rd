@@ -2,14 +2,17 @@
 % Please edit documentation in R/model.R
 \name{model.readNamePlatform}
 \alias{model.readNamePlatform}
-\title{Title}
+\title{Read a file containing the different platform where the user access}
 \usage{
 model.readNamePlatform(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path where is a file "namePlatform.csv"}
+}
+\value{
+res is a file containing the different platform where the user access
 }
 \description{
-Title
+Read a file containing the different platform where the user access
 }
 

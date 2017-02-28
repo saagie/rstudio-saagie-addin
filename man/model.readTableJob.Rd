@@ -10,7 +10,7 @@ model.readTableJob(path)
 \item{path}{path where is a file "job.csv"}
 }
 \value{
-res is a file contening the list of job
+res is a file containing the list of job
 }
 \description{
 Read a file containing job R or Create File

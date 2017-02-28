@@ -10,7 +10,7 @@ model.readThePlatform(path)
 \item{path}{path where is a file "thePlatform.csv"}
 }
 \value{
-res is a file contening the Platform where the job is upload
+res is a file containing the Platform where the job is upload
 }
 \description{
 Read a file containing the Platform where the job is upload

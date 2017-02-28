@@ -2,7 +2,7 @@
 #'
 #' @param path path where is a file "platform.csv"
 #'
-#' @return res is a file contening the list of platform
+#' @return res is a file containing the list of platform
 #' @export
 model.readTablePlatform <- function(path){
   file <- file.path(path, "platform", "platform.csv")
@@ -21,7 +21,7 @@ model.readTablePlatform <- function(path){
 #'
 #' @param path path where is a file "job.csv"
 #'
-#' @return res is a file contening the list of job
+#' @return res is a file containing the list of job
 #' @export
 model.readTableJob <- function(path){
   file <- file.path(path, "platform", "job.csv")
@@ -40,7 +40,7 @@ model.readTableJob <- function(path){
 #'
 #' @param path path where is a file "thePlatform.csv"
 #'
-#' @return res is a file contening the Platform where the job is upload
+#' @return res is a file containing the Platform where the job is upload
 #' @export
 model.readThePlatform <- function(path){
   file <- file.path(path, "platform", "thePlatform.csv")
@@ -55,15 +55,12 @@ model.readThePlatform <- function(path){
   res
 }
 
-# Read a file containing the different platform where the user is access
-#' Title
+#' Read a file containing the different platform where the user access
 #'
-#' @param path 
+#' @param path path where is a file "namePlatform.csv"
 #'
-#' @return
+#' @return res is a file containing the different platform where the user access
 #' @export
-#'
-#' @examples
 model.readNamePlatform <- function(path){
   file <- file.path(path, "platform", "namePlatform.csv")
   if (file.exists(file)) {
@@ -76,15 +73,12 @@ model.readNamePlatform <- function(path){
   res
 }
 
-# Read a file containing the num where upgrade the job
-#' Title
+#' Read a file containing the num where upgrade the job
 #'
-#' @param path 
+#' @param path path where is a file "row.csv"
 #'
-#' @return
-#' @export
-#'
-#' @examples
+#' @return res is a file containing the num where upgrade the job
+#' @export 
 model.readNumJob <- function(path){
   file <- file.path(path, "platform", "row.csv")
   if (file.exists(file)) {

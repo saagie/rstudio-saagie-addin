@@ -10,7 +10,7 @@ model.readTablePlatform(path)
 \item{path}{path where is a file "platform.csv"}
 }
 \value{
-res is a file contening the list of platform
+res is a file containing the list of platform
 }
 \description{
 Read a file where there are the different Platform name or Create File

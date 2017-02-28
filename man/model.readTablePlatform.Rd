@@ -2,14 +2,17 @@
 % Please edit documentation in R/model.R
 \name{model.readTablePlatform}
 \alias{model.readTablePlatform}
-\title{Title}
+\title{Read a file where there are the different Platform name}
 \usage{
 model.readTablePlatform(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path where is a file "platform.csv"}
+}
+\value{
+res is a file contening the list of platform
 }
 \description{
-Title
+Read a file where there are the different Platform name
 }
 

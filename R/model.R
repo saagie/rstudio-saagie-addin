@@ -1,12 +1,9 @@
-# Read a file where there are the different Platform name
-#' Title
+#' Read a file where there are the different Platform name
 #'
-#' @param path 
+#' @param path path where is a file "platform.csv"
 #'
-#' @return
+#' @return res is a file contening the list of platform
 #' @export
-#'
-#' @examples
 model.readTablePlatform <- function(path){
   file <- file.path(path, "platform", "platform.csv")
   if (file.exists(file)) {

@@ -1,4 +1,10 @@
 # The first view
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.activate <- function() {
   fluidPage(
     includeCSS(file.path(system.file(package = "Saagie"), "css", "style.css")),
@@ -59,6 +65,12 @@ view.allPages <- list("pageAddPlatform", "barAddPlatform",
                       "pageStateJob", "barStateJob")
 
 # Hide pages
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.hidePages <- function() {
   for (page in view.allPages) {
     shinyjs::hide(page)
@@ -77,6 +89,12 @@ view.showAddPlatform <- function() {
 }
 
 # Show the page "Select Or Create Job
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showSelectCreateJob <- function() {
   view.hidePages()
   show("defaultPlatform")
@@ -86,6 +104,12 @@ view.showSelectCreateJob <- function() {
 }
 
 # Show the page "Create a new Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showCreateNewJob <- function(){
   view.hidePages()
   show("defaultPlatform")
@@ -94,6 +118,12 @@ view.showCreateNewJob <- function(){
 }
 
 # Show the page "Upgrade a Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showUpgrade <- function(){
   view.hidePages()
   show("defaultPlatform")
@@ -103,6 +133,12 @@ view.showUpgrade <- function(){
 }
 
 # Show the page "Select a platform"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showSelectPlatform <- function(){
   view.hidePages()
   show("defaultPlatform")
@@ -111,6 +147,12 @@ view.showSelectPlatform <- function(){
 }
 
 # Show the page "Success Job Or Error Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showStateJob <- function(){
   view.hidePages()
   show("barStateJob")
@@ -118,6 +160,15 @@ view.showStateJob <- function(){
 }
 
 # Show the table containing the names of platform (in the page "Select a platform")
+#' Title
+#'
+#' @param dataPlatform 
+#' @param output 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showTablePlatform <- function(dataPlatform,output){
   dataPlatformCopy <- dataPlatform
   dataPlatformCopy <- dataPlatformCopy[,-3:-5]
@@ -130,6 +181,15 @@ view.showTablePlatform <- function(dataPlatform,output){
 }
 
 # Show the table containing the names of Job (in page "Select or Create New Job")
+#' Title
+#'
+#' @param jobs 
+#' @param output 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.showTableJob <- function(jobs,output){
   jobs <- jobs[,!colnames(jobs)=="idJob"]
   jobs <- jobs[,!colnames(jobs)=="idPlatform"]
@@ -142,6 +202,12 @@ view.showTableJob <- function(jobs,output){
 }
 
 # Details page "Add Platform"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageAddPlatform <- function(){
   fluidRow(
     column(6,
@@ -159,6 +225,12 @@ view.pageAddPlatform <- function(){
 }
 
 # Details page "Select Platform"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageSelectPlatform <- function(){
   fluidRow(column(12,
                   actionButton("createJob", "Select or create a new job",
@@ -170,6 +242,12 @@ view.pageSelectPlatform <- function(){
 }
 
 # Details page "Upgrade Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageUpgradeJob <- function(){
   fluidRow(
     column(6,
@@ -202,6 +280,12 @@ view.pageUpgradeJob <- function(){
 }
 
 # Details page "Select or Create Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageSelectCreateJob <- function(){
   fluidRow(
     column(6,
@@ -216,6 +300,12 @@ view.pageSelectCreateJob <- function(){
 }
 
 # Details page "Create a New Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageCreateNewJob <- function(){
   fluidRow(
     column(6,
@@ -253,6 +343,12 @@ view.pageCreateNewJob <- function(){
 }
 
 # Details page "Success Job Or Error Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.pageStateJob <- function(){
   fluidRow(
     column(6,
@@ -282,12 +378,24 @@ view.barAddPlatform <- function(){
 }
 
 # Details of bar page "Upgrade Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.barUpgradeJob <- function(){
   gadgetTitleBar("Upgrade a job",right = NULL,
                  left = miniTitleBarButton("previousUpgradeJob", "Back",primary=FALSE))
 }
 
 # Details of bar page "Select or Create a platform"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.barSelectCreatePlatform <- function(){
   gadgetTitleBar("Select or create a new job",
                  right = miniTitleBarButton("refresh",icon("refresh", lib="font-awesome"), primary=FALSE),
@@ -295,6 +403,12 @@ view.barSelectCreatePlatform <- function(){
 }
 
 # Details of bar page "Create a new Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.barCreateNewJob <- function(){
   gadgetTitleBar("Create a new job",right = NULL,
                  left = miniTitleBarButton("previousBarCreateNewJob", "Back",primary=FALSE))
@@ -311,12 +425,27 @@ view.barSelectPlatform <- function(){
 }
 
 # Details of bar page "State of job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.barStateJob <- function(){
   gadgetTitleBar("State of Job",right = NULL,
                  left = miniTitleBarCancelButton("cancelAfterUpload", "Close", primary=FALSE))
 }
 
 # Displays the choice of platform
+#' Title
+#'
+#' @param userGo 
+#' @param platformNameGo 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.selectPlatform <- function(userGo,platformNameGo){
   cat("User : ", userGo)
   cat("\n")
@@ -324,6 +453,14 @@ view.selectPlatform <- function(userGo,platformNameGo){
 }
 
 # Displays or Hide the bouton "Select or Create a new Job" (in the page "Select a platform")
+#' Title
+#'
+#' @param userGo 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.activeSelectCreateJob <- function(userGo){
   if(identical(userGo, character(0))){
     shinyjs::disable("createJob")
@@ -346,6 +483,12 @@ view.activeSelectCreateJob <- function(userGo){
 # }
 
 # Displays different fields when there is a success connection
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.successConnection <- function(){
   shinyjs::enable("addSelectPlatform")
   show("selectPlatformName")
@@ -353,11 +496,23 @@ view.successConnection <- function(){
 }
 
 # Displays a message when connection error
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.errorConnection <- function(){
   info("Connection error")
 }
 
 # Recover the name file R Script
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.recoverNameFile <- function(){
   tryCatch({
     nameFileR <- rstudioapi::getActiveDocumentContext()
@@ -393,12 +548,28 @@ view.recoverNameFile <- function(){
 # }
 
 # Displays the name Job who upgrade
+#' Title
+#'
+#' @param nameJob 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.nameJobUpgrade <- function(nameJob){
   cat("Upgrade a job : ")
   cat(nameJob)
 }
 
 # Displays LOG
+#' Title
+#'
+#' @param logsJob 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.log <- function(logsJob){
   if((is.null(logsJob$logs_err)) || (logsJob$logs_err == "")){
     info(paste("Status = ", logsJob$status, "\n\n",
@@ -421,12 +592,24 @@ view.log <- function(logsJob){
 }
 
 # Displays two buttons for download Log
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.downloadLog <- function(){
   show("downloadDataStdout")
   show("downloadDataStderr")
 }
 
 # Displays two buttons for download Log (Upgrade)
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.downloadLogUpgrade <- function(){
   show("downloadDataStdoutUpgrade")
   show("downloadDataStderrUpgrade")
@@ -461,11 +644,23 @@ view.downloadLogUpgrade <- function(){
 # }
 
 # Displays a message when close addin
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.messageClose <- function(){
   message("Cancelled Saagie interaction")
 }
 
 # Displays a on-hold message 
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.messageBarProgress <- function (){
   "Retrieving details for each job from Saagie"
 }
@@ -477,6 +672,12 @@ view.allPageState <- list("successStateAddJob","detailTab",
                           "errorUpgradeJob", "descriptionErrorUpgrade")
 
 # Hide element of Page "State Job"
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.hidePageState <- function() {
   for (page in view.allPageState) {
     shinyjs::hide(page)
@@ -484,12 +685,24 @@ view.hidePageState <- function() {
 }
 
 # Displays Success Job
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.successAddJob <- function(){
   view.hidePageState()
   show("successStateAddJob")
   show("detailTab")
 }
 # Displays Error Job
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.errorAddJob <- function(){
   view.hidePageState()
   show("errorStateAddJob")
@@ -497,6 +710,12 @@ view.errorAddJob <- function(){
 }
 
 # Displays Success Upgrade Job
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.successUpgradeJob <- function(){
   view.hidePageState()
   show("successUpgradeJob")
@@ -504,6 +723,12 @@ view.successUpgradeJob <- function(){
 }
 
 # Displays Error Upgrade Job
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 view.errorUpgradeJob <- function(){
   view.hidePageState()
   show("errorUpgradeJob")

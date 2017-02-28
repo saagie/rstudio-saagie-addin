@@ -2,17 +2,14 @@
 % Please edit documentation in R/model.R
 \name{model.removeLinkedNoR}
 \alias{model.removeLinkedNoR}
-\title{Remove no script R and displays the name of script R}
+\title{Title}
 \usage{
 model.removeLinkedNoR(jobs)
 }
 \arguments{
-\item{jobs}{We don't know yet.}
-}
-\value{
-We don't know yet.
+\item{jobs}{}
 }
 \description{
-Remove no script R and displays the name of script R
+Title
 }
 

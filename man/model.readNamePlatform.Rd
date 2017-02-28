@@ -7,7 +7,7 @@
 model.readNamePlatform(path)
 }
 \arguments{
-\item{path}{path where is a file "namePlatform.csv"}
+\item{path}{Path to local persistent Saagie folder}
 }
 \value{
 res is a file containing the different platform where the user access

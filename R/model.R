@@ -1,6 +1,6 @@
 #' Read a file where there are the different Platform name or Create File
 #'
-#' @param path path where is a file "platform.csv"
+#' @param path Path to local persistent Saagie folder
 #'
 #' @return res is a file containing the list of platform
 #' @export
@@ -19,7 +19,7 @@ model.readTablePlatform <- function(path){
 
 #' Read a file containing job R or Create File
 #'
-#' @param path path where is a file "job.csv"
+#' @param path Path to local persistent Saagie folder
 #'
 #' @return res is a file containing the list of job
 #' @export
@@ -38,7 +38,7 @@ model.readTableJob <- function(path){
 
 #' Read a file containing the Platform where the job is upload
 #'
-#' @param path path where is a file "thePlatform.csv"
+#' @param path Path to local persistent Saagie folder
 #'
 #' @return res is a file containing the Platform where the job is upload
 #' @export
@@ -57,7 +57,7 @@ model.readThePlatform <- function(path){
 
 #' Read a file containing the different platform where the user access
 #'
-#' @param path path where is a file "namePlatform.csv"
+#' @param path Path to local persistent Saagie folder
 #'
 #' @return res is a file containing the different platform where the user access
 #' @export
@@ -75,7 +75,7 @@ model.readNamePlatform <- function(path){
 
 #' Read a file containing the num where upgrade the job
 #'
-#' @param path path where is a file "row.csv"
+#' @param path Path to local persistent Saagie folder
 #'
 #' @return res is a file containing the num where upgrade the job
 #' @export 

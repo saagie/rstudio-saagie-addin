@@ -7,7 +7,7 @@
 model.readThePlatform(path)
 }
 \arguments{
-\item{path}{path where is a file "thePlatform.csv"}
+\item{path}{Path to local persistent Saagie folder}
 }
 \value{
 res is a file containing the Platform where the job is upload

@@ -141,6 +141,8 @@ model.updateTablePlatform <- function(path, input){
 #' @export
 #'
 #' @importFrom RCurl base64Decode
+#' @importFrom httr GET authenticate content
+#' @importFrom stats complete.cases
 model.JobRPlatform <- function(path){
   dataPlatform <- model.readThePlatform(path)
   withProgress({
@@ -194,7 +196,7 @@ model.postJob <- function(path, input, pathNameFile){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content POST
 model.uploadFile <- function(thePlatform, pathNameFile){
   reponseFile <- POST(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/upload",sep=""),
                       authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"),
@@ -244,7 +246,7 @@ model.runJob <- function(thePlatform,reponseAdd){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content
 model.idJobPlatform <- function(reponseAdd){
   addDeployName <- content(reponseAdd,type="application/json")
   idJobPlatform <- addDeployName[[1]]
@@ -384,7 +386,7 @@ model.addNamePlatform <- function(path, repPlatform) {
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content GET
 model.recoverNamePlatform <- function(path, input){
   platform <- GET(paste(input$platformURL,"/api/v1/platform", sep=""),
                   authenticate(input$user,input$password,type="basic"))
@@ -448,13 +450,23 @@ model.newVersion <- function(input,thePlatform,idJob,fileName){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr GET content
 model.infoJobUpgrade <- function(thePlatform,idJob){
   reponse <- GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob,sep=""),
                  authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
   infoJob <- content(reponse,type="application/json")
 }
 # Post a upgrade
+#' Title
+#'
+#' @param thePlatform 
+#' @param idJob 
+#' @param fileName 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 model.postUpgrade <- function(thePlatform,idJob,fileName){
   GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob, sep=""),
       authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"),
@@ -507,7 +519,7 @@ model.currentVersion <- function(path,jobs,thePlatform){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content GET
 model.showLog <- function(thePlatform,idJob){
   reponseLog <- GET(paste(thePlatform[1,4],"/api/v1/platform/",thePlatform[1,5],"/job/",idJob, "/jobinstance", sep=""),
                     authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
@@ -528,7 +540,7 @@ model.showLog <- function(thePlatform,idJob){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content
 model.downloadStdout <- function(thePlatform,test){
   data <- GET(paste(thePlatform[1,4],"/api/v1/jobinstance/",test[['IdLog']],"/stdout", sep=""),
               authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))
@@ -547,7 +559,7 @@ model.downloadStdout <- function(thePlatform,test){
 #' @return
 #' @export
 #'
-#' @examples
+#' @importFrom httr content
 model.downloadStderr <- function(thePlatform, test){
   data <- GET(paste(thePlatform[1,4],"/api/v1/jobinstance/",test[['IdLog']],"/stderr", sep=""),
               authenticate(thePlatform[1,1],base64Decode(thePlatform[1,3]),type="basic"))

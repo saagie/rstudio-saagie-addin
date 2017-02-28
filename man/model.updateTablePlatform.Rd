@@ -9,7 +9,7 @@ model.updateTablePlatform(path, input)
 \arguments{
 \item{path}{Path to local persistent Saagie folder}
 
-\item{input}{We don't know yet.}
+\item{input}{Bouton when you add a new platform : input$addSelectPlatform}
 }
 \description{
 Update "Table Platform" when the new information about the platform is writing

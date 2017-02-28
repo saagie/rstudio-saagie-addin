@@ -93,7 +93,7 @@ model.readNumJob <- function(path){
 #' Update "Table Platform" when the new information about the platform is writing
 #'
 #' @param path Path to local persistent Saagie folder
-#' @param input We don't know yet.
+#' @param input Bouton when you add a new platform : input$addSelectPlatform
 #'
 #' @importFrom RCurl base64Encode
 model.updateTablePlatform <- function(path, input){

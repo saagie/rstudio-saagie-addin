@@ -159,15 +159,4 @@ validator.fileTableJobConform <- function(res,file){
     write.csv(res, file = file, row.names = FALSE)
   }
   res
-  # if(length(names(res)) == 4){
-  #   if(!(names(res[1]) == "idJob" && (names(res[2]) == "idPlatform") && (names(res[3]) == "capsule") && (names(res[4]) == "category"))){
-  #     res <- data.frame("idJob" = integer(0), "idPlatform" = character(0), "capsule" = character(0), "category" = character(0),stringsAsFactors = FALSE)
-  #     write.csv(res, file = file, row.names = FALSE)
-  #   }
-  # }else{
-  #   res <- data.frame("idJob" = integer(0), "idPlatform" = character(0), "capsule" = character(0), "category" = character(0),
-  #                     "numVersion" = integer(0), "nameScript" = character(0), "nameJob" = character(0), stringsAsFactors = FALSE)
-  #   write.csv(res, file = file, row.names = FALSE)
-  # }
-  # res
 }

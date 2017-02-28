@@ -2,14 +2,17 @@
 % Please edit documentation in R/model.R
 \name{model.readThePlatform}
 \alias{model.readThePlatform}
-\title{Title}
+\title{Read a file containing the Platform where the job is upload}
 \usage{
 model.readThePlatform(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{path where is a file "thePlatform.csv"}
+}
+\value{
+res is a file contening the Platform where the job is upload
 }
 \description{
-Title
+Read a file containing the Platform where the job is upload
 }
 

@@ -36,15 +36,12 @@ model.readTableJob <- function(path){
   res
 }
 
-# Read a file containing the Platform where the job is upload
-#' Title
+#' Read a file containing the Platform where the job is upload
 #'
-#' @param path 
+#' @param path path where is a file "thePlatform.csv"
 #'
-#' @return
+#' @return res is a file contening the Platform where the job is upload
 #' @export
-#'
-#' @examples
 model.readThePlatform <- function(path){
   file <- file.path(path, "platform", "thePlatform.csv")
   if (file.exists(file)) {

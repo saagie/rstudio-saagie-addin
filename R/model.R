@@ -119,11 +119,11 @@ model.updateTablePlatform <- function(path, input){
   }
 }
 
-#' Title
+#' Recover jobs R in select platform and Add informations in file
 #'
-#' @param path 
+#' @param path Path to local persistent Saagie folder
 #'
-#' @return
+#' @return 
 #' @export
 #'
 #' @importFrom RCurl base64Decode

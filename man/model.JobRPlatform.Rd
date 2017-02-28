@@ -2,14 +2,14 @@
 % Please edit documentation in R/model.R
 \name{model.JobRPlatform}
 \alias{model.JobRPlatform}
-\title{Title}
+\title{Recover jobs R in select platform and Add informations in file}
 \usage{
 model.JobRPlatform(path)
 }
 \arguments{
-\item{path}{}
+\item{path}{Path to local persistent Saagie folder}
 }
 \description{
-Title
+Recover jobs R in select platform and Add informations in file
 }
 

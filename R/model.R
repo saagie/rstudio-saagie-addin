@@ -488,7 +488,7 @@ model.postUpgrade <- function(thePlatform,idJob,fileName){
 #' @importFrom RCurl base64Decode
 #' @importFrom httr content GET authenticate
 model.currentVersion <- function(path,jobs,thePlatform){
-  test <- as.character()
+  test <- FALSE
   withProgress({
     for (i in seq_len(nrow(jobs))) {
       response <- GET(paste(thePlatform[1,4], "/api/v1/platform/", thePlatform[1,5], "/job/", jobs[i,1],sep=""),

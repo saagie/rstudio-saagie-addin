@@ -485,28 +485,35 @@ model.postUpgrade <- function(thePlatform,idJob,fileName){
 #'
 #' @return
 #' @export
-#'
-#' @examples
+#' @importFrom RCurl base64Decode
+#' @importFrom httr content GET authenticate
 model.currentVersion <- function(path,jobs,thePlatform){
-  #withProgress({
+  test <- as.character()
+  withProgress({
     for (i in seq_len(nrow(jobs))) {
       response <- GET(paste(thePlatform[1,4], "/api/v1/platform/", thePlatform[1,5], "/job/", jobs[i,1],sep=""),
                       authenticate(thePlatform[1,1], base64Decode(thePlatform[1,3]), type = "basic"))
-      # response <- GET(paste(thePlatform[1,4], "/api/v1/platform/", thePlatform[1,5], "/job/", jobs[3,1],sep=""),
-      #                 authenticate("service", "zP2khQwD3FChh", type = "basic"))
       detailsJob <- content(response, type = "application/json")
-      # jobs[i, 5] <- detailsJob[[3]][[3]]
+      if(is.null(detailsJob)){
+        test <- TRUE
+        break
+      }
+    }
+    if(test == TRUE){
+      model.JobRPlatform(path)
+      jobs <- model.readTableJob(path)
+    }
+    for (i in seq_len(nrow(jobs))) {
+      response <- GET(paste(thePlatform[1,4], "/api/v1/platform/", thePlatform[1,5], "/job/", jobs[i,1],sep=""),
+                            authenticate(thePlatform[1,1], base64Decode(thePlatform[1,3]), type = "basic"))
+      detailsJob <- content(response, type = "application/json")
       jobs[i, "numVersion"] <- detailsJob[["current"]][["number"]]
-      # jobs[i, 6] <- detailsJob[[3]][[5]]
       jobs[i, "nameScript"] <- detailsJob[["current"]][["file"]]
-      # jobs[i, 7] <- detailsJob[[7]]
       jobs[i, "nameJob"] <- detailsJob$name
     }
-  #}, message = view.messageBarProgress())
+  }, message = view.messageBarProgress())
   jobs <- jobs[order(jobs[,1],decreasing = T),]
   write.csv(jobs,file = file.path(path, "platform", "job.csv"), row.names = FALSE)
-  #jobs <- jobs[, -1:-3]
-  #print(jobs[i, 6])
   return(jobs)
 }
 

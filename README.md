@@ -26,6 +26,12 @@ If you use Saagie manager 1.1 :
 devtools::install_github("saagie/rstudio-saagie-addin@1.1.1")
 ```
 
+If you use Saagie manager 1.2 :
+
+```R
+devtools::install_github("saagie/rstudio-saagie-addin@1.2")
+```
+
 ## Usage
 
 Within **RStudio**:  

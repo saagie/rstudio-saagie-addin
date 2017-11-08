@@ -195,10 +195,12 @@ view.showTableJob <- function(jobs,output){
   jobs <- jobs[,!colnames(jobs)=="idPlatform"]
   jobs <- jobs[,!colnames(jobs)=="capsule"]
   names(jobs) <-  c("Category", "Current Version","Linked R Script","Job Name")
-  output$newJob <- DT::renderDataTable(DT::datatable(
-    jobs[order(jobs[,1],decreasing = T),],options=list(searching=FALSE, paging=FALSE, info=FALSE),
-    selection = list(mode = "single", selected = 1, target = "row")
-  ), server=TRUE)
+  if(nrow(jobs) != 0){
+    output$newJob <- DT::renderDataTable(DT::datatable(
+      jobs[order(jobs[,1],decreasing = T),],options=list(searching=FALSE, paging=FALSE, info=FALSE),
+      selection = list(mode = "single", selected = 1, target = "row")
+    ), server=TRUE) 
+  }
 }
 
 # Details page "Add Platform"

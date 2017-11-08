@@ -616,30 +616,32 @@ model.removeFile <- function(pathNameFile){
 #' @importFrom data.table tstrsplit
 #' @importFrom stringr str_sub
 model.removeLinkedNoR <- function(jobs){
-  for(i in 1:nrow(jobs)){
-    if((str_sub(jobs[i,"nameScript"],-2, -1) == ".R")){
-      if(length(tstrsplit(jobs[i,"nameScript"],"-"))==2){
-        name <- tstrsplit(jobs[i,"nameScript"],"-")
-        jobs[i,"nameScript"] <- name[[2]]
-      }else{
+  if(nrow(jobs) != 0){
+    for(i in 1:nrow(jobs)){
+      if((str_sub(jobs[i,"nameScript"],-2, -1) == ".R")){
+        if(length(tstrsplit(jobs[i,"nameScript"],"-"))==2){
+          name <- tstrsplit(jobs[i,"nameScript"],"-")
+          jobs[i,"nameScript"] <- name[[2]]
+        }else{
+          jobs[i,"nameScript"] <- jobs[i,"nameScript"]
+        }
+      }else if ((str_sub(jobs[i,"nameScript"],-2, -1) == ".r")){
+        if(length(tstrsplit(jobs[i,"nameScript"],"-"))==2){
+          name <- tstrsplit(jobs[i,"nameScript"],"-")
+          jobs[i,"nameScript"] <- name[[2]]
+        }else{
+          jobs[i,"nameScript"] <- jobs[i,"nameScript"]
+        }
+      }else if ((str_sub(jobs[i,"nameScript"],-4, -1) == ".zip")){
+        jobs[i,"nameScript"] <- "File Zip"
+      }else if ((str_sub(jobs[i,"nameScript"],-3, -1) == ".py")){
+        jobs[i,"nameScript"] <- "File Python"
+      }else if ((str_sub(jobs[i,"nameScript"],-3, -1) == ".fr") || (str_sub(jobs[i,"nameScript"],-3, -1) == ".com")){
+        jobs[i,"nameScript"] <- "Web"
+      }else if ((str_sub(jobs[i,"nameScript"],-2, -2) != ".")){
         jobs[i,"nameScript"] <- jobs[i,"nameScript"]
       }
-    }else if ((str_sub(jobs[i,"nameScript"],-2, -1) == ".r")){
-      if(length(tstrsplit(jobs[i,"nameScript"],"-"))==2){
-        name <- tstrsplit(jobs[i,"nameScript"],"-")
-        jobs[i,"nameScript"] <- name[[2]]
-      }else{
-        jobs[i,"nameScript"] <- jobs[i,"nameScript"]
-      }
-    }else if ((str_sub(jobs[i,"nameScript"],-4, -1) == ".zip")){
-      jobs[i,"nameScript"] <- "File Zip"
-    }else if ((str_sub(jobs[i,"nameScript"],-3, -1) == ".py")){
-      jobs[i,"nameScript"] <- "File Python"
-    }else if ((str_sub(jobs[i,"nameScript"],-3, -1) == ".fr") || (str_sub(jobs[i,"nameScript"],-3, -1) == ".com")){
-      jobs[i,"nameScript"] <- "Web"
-    }else if ((str_sub(jobs[i,"nameScript"],-2, -2) != ".")){
-      jobs[i,"nameScript"] <- jobs[i,"nameScript"]
-    }
+    } 
   }
   return(jobs)
 }
